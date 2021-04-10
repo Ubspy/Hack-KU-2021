@@ -1,31 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
-    <title>User Info Page Prototype</title>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>User Info Page Prototype</title>
+        <!-- Compressed CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css" integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous">
+    </head>
 
     <script src="https://unpkg.com/vue@next"></script>
-    
-    <div id="page-title">
-        Welcome {{first-name}} {{last-name}}
+    <!-- Compressed JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/js/foundation.min.js" integrity="sha256-pRF3zifJRA9jXGv++b06qwtSqX1byFQOLjqa2PTEb2o=" crossorigin="anonymous"></script>
+     
+    <div class="top-bar">
+        <div class="top-bar-right">
+            <ul class="menu">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Login</a></li>
+                <li><a href="#">help</a></li>
+            </ul>
+        </div>
     </div>
-    <div id="info">
 
+    <div class="callout large primary">
+        <div class="row column text-center">
+            <h1>Welcome {{first-name}}!</h1>
+            <h2 class="subheader">View and control access to your medical history.</h2>
+        </div>
     </div>
+
+<div class="grid-container">
+    <div class="grid-x align-center">
+        <ul class="accordion" data-accordion data-multi-expand="true">
+            <li class="accordion-item is-active" data-accordion-item>
+                <a href="#" class="accordion-title">Personal Information</a>
+                <div class="accordion-content" data-tab-content >
+                  <ul>
+                      <li>Patient Name: {{first-name}} {{last-name}}</li>
+                      <li>Date of Birth: {{dob}}</li>
+                      <li>Contact Information:</li>
+                      <ul>
+                          <li>Email: {{email}}</li>
+                          <li>Phone Number: {{phone-num}}</li>
+                          <li>Address: {{address}}</li>
+                      </ul>
+                      <li>SSN: {{ssn}}</li>
+                      <li>Health Insurance:</li>
+                      <ul>
+                          <li>Provider: {{insurance-provider}}</li>
+                          <li></li>
+                      </ul>
+                    </ul>
+                  <a href="#">Edit Personal Information</a>
+                </div>
+              </li>
+        </ul>
+    </div>
+</div>
+
 
     <script>
-        const CounterApp = {
-            data() {
-                return {
-                counter: 0
-                }
-            },
-            mounted() {
-                setInterval(() => {
-                this.counter++
-                }, 1000)
-            }
-        }
-
-        Vue.createApp(CounterApp).mount('#counter')
-
+        
     </script>
 </html>

@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>User Info Page Prototype</title>
+        <title>MedTogether: Personal Information</title>
         <!-- Compressed CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css" integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous">
      <link rel="stylesheet" href="Scheme.css" />
@@ -19,24 +19,24 @@
     <div class="top-bar">
         <div class="top-bar-right">
             <ul class="menu">
-                <li><a href="#">About</a></li>
-                <li><a href="#">Login</a></li>
-                <li><a href="#">help</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="help.html">help</a></li>
             </ul>
         </div>
     </div>
 
     <div class="callout large primary">
         <div class="row column text-center">
-            <h1>Welcome {{first-name}}!</h1>
-            <h2 class="subheader">View and control access to your medical history.</h2>
+            <h2>Welcome {{first-name}}!</h2>
+            <h3 class="subheader">View and control access to your medical history.</h3>
         </div>
     </div>
 
 <body>
 
-<div class="row medium-8 large-7 columns">
-     
+    <div class="row medium-8 large-7 columns">
+        
         <div class="callout">
             <h3>Personal Information</h3>
             <div class="callout">
@@ -63,11 +63,11 @@
                 <h4>Provider Address: <small>{{insurance-address}}</small></h4>
             </div>
 
-      </div>
+        </div>
 
-      </div>
-
+    </div>
 </body>
+
 
     <script>
         $(document).foundation();

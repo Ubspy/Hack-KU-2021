@@ -25,7 +25,10 @@ body{
 
 }
 
-
+.callout{
+  background-color: #969D9B;
+  text-decoration-color: black;
+}
 
 div * {
 

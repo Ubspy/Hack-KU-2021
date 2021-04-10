@@ -2,13 +2,6 @@ from json import JSONEncoder
 from dataclasses import dataclass
 from typing import Optional, List
 
-class MedicalDataEncoder(JSONEncoder):
-    def default(self, o):
-        if isinstance(o, MedicalSerializable):
-            return o.getJSON()
-        else:
-            return json.JSONEncoder.default(self, o)
-
 class MedicalSerializable():
     def getJSON(self):
         return self.__dict__
@@ -18,6 +11,8 @@ class Date(MedicalSerializable):
     month: int
     day: int
     year: int
+    def getJSON(self):
+        return f"{self.year}-{self.month}-{self.day}"
 
 @dataclass
 class PatientVisit(MedicalSerializable):

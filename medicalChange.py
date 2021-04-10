@@ -1,6 +1,6 @@
 from datetime import datetime
 from dataclasses import dataclass
-from medicalData import *
+from medicalData import MedicalSerializable, PatientMeasurements
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import hashes

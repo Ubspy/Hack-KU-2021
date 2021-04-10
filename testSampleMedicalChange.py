@@ -9,7 +9,7 @@ mychange = MedicalChange(
     "measurements", 
     PatientMeasurements(
         Date(4, 10, 2021), 
-        171,
+        170,
         None, 
         None
     ),
@@ -22,6 +22,8 @@ with open("key.pem", "rb") as private_key_file:
         password=b"passphrase"
     )
 signedchange = sign(mychange, private_key)
+
+signedchange.change.data.weight = 170
 
 encoded = json.dumps(signedchange, cls=MedicalChangeEncoder)
 print(encoded)

@@ -1,3 +1,19 @@
+head{
+
+  width: 1000px;
+  margin: 1 auto;
+  background-color: #800080;
+  padding: 0 20px 20px 20px;
+  border: 8px solid black
+}
+
+title{
+  width: 600px;
+  margin: 0 auto;
+  background-color: #FF9500;
+  padding: 0 20px 20px 20px;
+  border: 5px solid black
+}
 
 body{
   width: 600px;
@@ -5,4 +21,18 @@ body{
   background-color: #FF9500;
   padding: 0 20px 20px 20px;
   border: 5px solid black
+}
+
+.accordion{
+  width: 600px;
+  margin: 0 auto;
+  background-color: #FF9500;
+  padding: 0 20px 20px 20px;
+  border: 5px solid black
+}
+div * {
+
+}
+#id {
+
 }

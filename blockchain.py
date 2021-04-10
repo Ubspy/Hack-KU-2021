@@ -1,7 +1,20 @@
 from time import time
 from hashlib import sha256 
-import medicalData
+import medicalChange
 from encoder import Serializable
+from medicalChange import *
+from cryptography.hazmat.primitives import serialization
+
+with open("public.pem", "rb") as publicKeyFile:
+    publicKey = serialization.load_pem_public_key(
+        publicKeyFile.read()
+    )
+
+with open("key.pem", "rb") as privateKeyFile:
+    privateKey = serialization.load_pem_private_key(
+        privateKeyFile.read(),
+        password=b"passphrase"
+    )
 
 # Block chain class, handles adding new blocks
 class BlockChain(Serializable):
@@ -16,8 +29,8 @@ class BlockChain(Serializable):
         return len(self.chain)
 
     # Adds a new edit to the list of edits we will eventually add to a block
-    def newEdit(self, medicalData):
-        self.pendingEdits.append(medicalData)
+    def newEdit(self, medicalChange):
+        self.pendingEdits.append(medicalChange)
 
     # Gets the SHA256 hash for a block, turns the block data into JSON, then encodes it to utf-8, and then gets the SHA hash as a string
     def hashBlock(self, block):
@@ -33,10 +46,19 @@ class BlockChain(Serializable):
         else:
             return self.validateChain(index + 1) # Can't compare the first element to the previous one, so we just return the next index
         
+    # Validates all the signatures on the changes for patient medical data
+    def validateSignatures(self, index=0):
+        if index == len(self.chain):
+            return True
+        elif index > 0:
+            return verify(self.chain[index].medicalChange, publicKey) and self.validateSignatures(index+1)
+        else:
+            return self.validateChain(index + 1)
+
     # Checks is a proof is validated
     def isValidProof(self, lastProof, previousHash, proof):
         currentHash = sha256(str(f'{lastProof}{previousHash}{proof}').encode('utf-8'))
-        return currentHash.hexdigest()[:5] == '00000' # TODO: Make this larger, I'm keeping smaller for implementation purposes
+        return currentHash.hexdigest()[:2] == '00' # TODO: Make this larger, I'm keeping smaller for implementation purposes
 
     # Function to calculate proof of work
     def proofOfWork(self, lastBlock):
@@ -47,7 +69,8 @@ class BlockChain(Serializable):
 
     # Create a new block, we have a previousHash variable for the first block
     def newBlock(self, previousHash=None):
-        if self.validateChain(): # Check if the block chain is validated
+        # Check if the block chain is validated and if the signatures are validated
+        if self.validateChain() and self.validateSignatures():
             proof = self.proofOfWork(self.lastBlock) # Calculate the proof for this block
             block = Block(self.pendingEdits, len(self.chain), self.hashBlock(self.lastBlock), proof) # Create a new block object with the calculated proof
             self.chain.append(block) # Append this block
@@ -63,18 +86,55 @@ class BlockChain(Serializable):
 
 # Block class, takes a set of data, an index, a previous hash and a proof
 class Block(Serializable):
-    def __init__(self, medicalData, index, previousHash, proof):
+    def __init__(self, medicalChange, index, previousHash, proof):
         self.time = time() # Keeps a time stamp for the block
         self.index = index
-        self.medicalData = medicalData
+        self.medicalChange = medicalChange
         self.previousHash = previousHash
         self.proof = proof
 
     # Getters for medical data, index and JSON
     def getMedicalData(self):
-        return self.medicalData
+        return self.medicalChange
 
     def getIndex(self):
         return self.index
-        
-    # TODO: Sign blocks
+
+def getPatientInfoFromChain(chain):
+    patientInfo = {} # Empty dictionary
+
+    print([block.medicalChange for block in chain.chain])
+
+    for edit in [block.medicalChange for block in chain.chain]:
+        print(edit, type(edit))
+        patientInfo.update(edit)
+
+    return patientInfo
+
+chain = BlockChain()
+
+chain.newEdit(sign(MedicalChange("name", "Joe Biden", None), privateKey))
+chain.newEdit(sign(MedicalChange("bloodType", "A-", None), privateKey))
+chain.newEdit(sign(MedicalChange("dob", "4/15/1987", None), privateKey))
+chain.newBlock()
+
+chain.newEdit(sign(MedicalChange("allergies", ['pollen', 'latex'], None), privateKey))
+chain.newBlock()
+
+chain.newEdit(sign(MedicalChange('bloodType', 'B+', None), privateKey))
+chain.newBlock()
+
+print(getPatientInfoFromChain(chain))
+
+# chain.newEdit({'name': 'Joe Biden'})
+# chain.newEdit({'bloodType': 'A-'})
+# chain.newEdit({'dob': '4/15/1987'})
+# chain.newBlock()
+
+# chain.newEdit({'allergies': ['pollen', 'latex']})
+# chain.newBlock()
+
+# chain.newEdit({'bloodType': 'B+'})
+# chain.newBlock()
+
+# print(getPatientInfoFromChain(chain))

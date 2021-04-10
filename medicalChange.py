@@ -27,14 +27,14 @@ class SignedMedicalChange(Serializable):
         }
     
     
-def measurement_decoder(dct) -> PatientMeasurements:
+def measurementDecoder(dct) -> PatientMeasurements:
     return PatientMeasurements(dct.get('weight'), dct.get('height'), dct.get('bloodPressure'))
     
 data_decoders = {
-    "measurement": measurement_decoder,
+    "measurement": measurementDecoder,
 }
 
-def medical_change_decoder(dct):
+def medicalChangeDecoder(dct):
     return SignedMedicalChange(
         MedicalChange(
             tag=dct['type'], 
@@ -77,5 +77,5 @@ def sign(change: MedicalChange, key: rsa.RSAPrivateKey) -> SignedMedicalChange:
 
 def load(filename):
     with open(filename) as f:
-        return json.load(f, object_hook=medical_change_decoder)
+        return json.load(f, object_hook=medicalChangeDecoder)
     

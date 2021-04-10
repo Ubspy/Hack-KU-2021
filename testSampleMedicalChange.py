@@ -4,6 +4,7 @@ from datetime import datetime
 import json
 from pprint import pprint
 from cryptography.hazmat.primitives import serialization
+from encoder import GeneralEncoder
 
 mychange = MedicalChange(
     "measurements", 
@@ -25,7 +26,7 @@ signedchange = sign(mychange, private_key)
 
 signedchange.change.data.weight = 170
 
-encoded = json.dumps(signedchange, cls=MedicalChangeEncoder)
+encoded = json.dumps(signedchange, cls=GeneralEncoder)
 print(encoded)
 
 with open("public.pem", "rb") as public_key_file:

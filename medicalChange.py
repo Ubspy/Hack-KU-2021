@@ -4,8 +4,9 @@ from medicalData import PatientMeasurements
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import hashes
+from cryptography.exceptions import InvalidSignature
 import json
-from encoder import GeneralEncoder, Serializable
+from encoder import Serializable
 
 @dataclass
 class MedicalChange():
@@ -43,28 +44,24 @@ def medical_change_decoder(dct):
         signature=bytes.fromhex(dct['signature'])
     )
     
-class MedicalChangeEncoder(json.JSONEncoder):
-    def default(self, o):
-        if isinstance(o, MedicalSerializable):
-            return o.getJSON()
-        elif isinstance(o, datetime):
-            return o.isoformat()
-        else:
-            return json.JSONEncoder.default(self, o)
-    
-def verify(signedchange: SignedMedicalChange, pubkey: rsa.RSAPublicKey):
+def verify(signedchange: SignedMedicalChange, pubkey: rsa.RSAPublicKey) -> bool:
     change = signedchange.change
     message = bytes(repr(change), 'utf-8')
     
-    pubkey.verify(
-        signedchange.signature,
-        message,
-        padding.PSS(
-            mgf=padding.MGF1(hashes.SHA256()),
-            salt_length=padding.PSS.MAX_LENGTH
-        ),
-        hashes.SHA256()
-    )
+    try:
+        pubkey.verify(
+            signedchange.signature,
+            message,
+            padding.PSS(
+                mgf=padding.MGF1(hashes.SHA256()),
+                salt_length=padding.PSS.MAX_LENGTH
+            ),
+            hashes.SHA256()
+        )
+    except InvalidSignature:
+        return False
+    return True
+    
     
 def sign(change: MedicalChange, key: rsa.RSAPrivateKey) -> SignedMedicalChange:
     message = bytes(repr(change), 'utf-8')

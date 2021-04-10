@@ -2,19 +2,27 @@ from datetime import datetime
 from dataclasses import dataclass
 from medicalData import *
 from cryptography.hazmat.primitives.asymmetric import rsa
+from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import hashes
 import json
 
 @dataclass
-class MedicalChange:
+class MedicalChange():
     tag: str
     data: any
     timestamp: datetime
-    
+        
 @dataclass
-class SignedMedicalChange:
+class SignedMedicalChange(MedicalSerializable):
     change: MedicalChange
     signature: bytes
+    def getJSON(self):
+        return {
+            "tag": self.change.tag,
+            "data": self.change.data,
+            "timestamp": self.change.timestamp,
+            "signature": bytes.hex(self.signature)
+        }
     
     
 def measurement_decoder(dct) -> PatientMeasurements:
@@ -29,27 +37,26 @@ def medical_change_decoder(dct):
         MedicalChange(
             tag=dct['type'], 
             data=data_decoders[dct['type']](dct['data']),
-            timestamp=dct['timestamp'],
+            timestamp=datetime.fromisoformat(dct['timestamp']),
         ),
-        signature=dct['signature']
+        signature=bytes.fromhex(dct['signature'])
     )
     
 class MedicalChangeEncoder(json.JSONEncoder):
-    def default(self, o: SignedMedicalChange):
-        change = o.change
-        return {
-            "tag": change.tag,
-            "data": change.data,
-            "timestamp": change.timestamp,
-            "signature": o.signature
-        }
+    def default(self, o):
+        if isinstance(o, MedicalSerializable):
+            return o.getJSON()
+        elif isinstance(o, datetime):
+            return o.isoformat()
+        else:
+            return json.JSONEncoder.default(self, o)
     
 def verify(signedchange: SignedMedicalChange, pubkey: rsa.RSAPublicKey):
     change = signedchange.change
-    message = bytes(repr(change))
+    message = bytes(repr(change), 'utf-8')
     
     pubkey.verify(
-        change.signature,
+        signedchange.signature,
         message,
         padding.PSS(
             mgf=padding.MGF1(hashes.SHA256()),
@@ -59,7 +66,7 @@ def verify(signedchange: SignedMedicalChange, pubkey: rsa.RSAPublicKey):
     )
     
 def sign(change: MedicalChange, key: rsa.RSAPrivateKey) -> SignedMedicalChange:
-    message = bytes(repr(change))
+    message = bytes(repr(change), 'utf-8')
     signature = key.sign(
         message,
         padding.PSS(

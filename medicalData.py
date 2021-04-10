@@ -4,54 +4,51 @@ from typing import Optional, List
 
 class MedicalDataEncoder(JSONEncoder):
     def default(self, o):
-        return o.__dict__
+        if isinstance(o, MedicalSerializable):
+            return o.getJSON()
+        else:
+            return json.JSONEncoder.default(self, o)
+
+class MedicalSerializable():
+    def getJSON(self):
+        return self.__dict__
 
 @dataclass
-class Date:
+class Date(MedicalSerializable):
     month: int
     day: int
     year: int
-    def getJSON(self, obj):
-        return MedicalDataEncoder().encode(obj)
 
 @dataclass
-class PatientVisit:
+class PatientVisit(MedicalSerializable):
     date: Date
     place: str
     doctor: str
     notes: str
-    def getJSON(self, obj):
-        return MedicalDataEncoder().encode(obj)
 
 @dataclass
-class Media:
+class Media(MedicalSerializable):
     visit: PatientVisit
     media: None
-    def getJSON(self, obj):
-        return MedicalDataEncoder().encode(obj)
 
 @dataclass
-class PatientMeasurements:
+class PatientMeasurements(MedicalSerializable):
     date: Date
     weight: Optional[float]
     height: Optional[float]
     bloodPressure: Optional[str]
-    def getJSON(self, obj):
-        return MedicalDataEncoder().encode(obj)
 
 @dataclass
-class HealthInsuranceInfo:
+class HealthInsuranceInfo(MedicalSerializable):
     name: str
     provider: str
     id: int
     group: str
     plan: str
     address:str
-    def getJSON(self, obj):
-        return MedicalDataEncoder().encode(obj)
 
 @dataclass
-class MedicalData:
+class MedicalData(MedicalSerializable):
     name: str
     email: str
     phoneNumber: int
@@ -64,5 +61,3 @@ class MedicalData:
     media: List[Media]
     healthConditions: List[str]
     recentVisits: List[PatientVisit]
-    def getJSON(self, obj):
-        return MedicalDataEncoder().encode(obj)

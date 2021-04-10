@@ -1,18 +1,12 @@
 from dataclasses import dataclass
 from typing import Optional, List
 from encoder import Serializable
+import datetime
 
-@dataclass
-class Date(Serializable):
-    month: int
-    day: int
-    year: int
-    def getJSON(self):
-        return f"{self.year}-{self.month}-{self.day}"
 
 @dataclass
 class PatientVisit(Serializable):
-    date: Date
+    date: datetime.date
     place: str
     doctor: str
     notes: str

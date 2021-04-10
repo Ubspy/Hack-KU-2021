@@ -17,18 +17,12 @@ class Blockchain:
         return self.chain[len(self.chain) - 1]
 
 class Block:
-    def __init__(self, medicalData, previousBlock, previousHash):
+    def __init__(self, medicalData, index, previousHash):
         self.time = time()
-        self.index = previousBlock.getIndex() + 1
+        self.index = index
         self.medicalData = medicalData
         self.hash = hash(medicalData)
-
-        computedHash = hash(previousBlock)
-
-        if computedHash == previousHash:
-            self.previousHash = hash(previousBlock.getMedicalData())
-        else:
-            raise Exception('non-valid-block')
+        self.previousHash = previousHash
 
     def getMedicalData(self):
         return self.medicalData
@@ -36,8 +30,10 @@ class Block:
     def getIndex(self):
         return self.index
 
+    def getHash(self):
+        return self.hash
+
 class MedicalData:
     def __init__(self, name, dob, conditions):
         self.name = name
         self.dob = dob
-        self.conditions = conditions

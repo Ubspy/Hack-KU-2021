@@ -1,6 +1,6 @@
 from json import JSONEncoder
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, List
 
 class MedicalDataEncoder(JSONEncoder):
     def default(self, o):
@@ -58,11 +58,11 @@ class MedicalData:
     address: str
     dob: Date
     ssn: int
-    measurements: list[PatientMeasurements]
+    measurements: List[PatientMeasurements]
     bloodType: str
-    allergies: list[str]
-    media: list[Media]
-    healthConditions: list[str]
-    recentVisits: list[PatientVisit]
+    allergies: List[str]
+    media: List[Media]
+    healthConditions: List[str]
+    recentVisits: List[PatientVisit]
     def getJSON(self, obj):
         return MedicalDataEncoder().encode(obj)

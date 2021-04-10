@@ -1,6 +1,6 @@
 from medicalChange import *
 from medicalData import *
-from datetime import datetime
+from datetime import datetime, date
 import json
 from pprint import pprint
 from cryptography.hazmat.primitives import serialization
@@ -9,7 +9,7 @@ from encoder import GeneralEncoder
 mychange = MedicalChange(
     "measurements", 
     PatientMeasurements(
-        Date(4, 10, 2021), 
+        date.today(), 
         170,
         None, 
         None

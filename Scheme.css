@@ -1,0 +1,37 @@
+head{
+
+
+  margin: 0 auto;
+  background-color: #969D9B;
+  text-decoration-color: blue;
+  padding: 0 20px 20px 20px;
+
+}
+
+title{
+
+  margin: 0 auto;
+  font-size: 55px;
+  background-color: #727FA0;
+  padding: 0 20px 20px 20px;
+
+}
+
+body{
+
+  margin: 0 auto;
+  background-color: #62688C;
+  padding: 0 40px 40px 40px;
+
+}
+
+
+
+div * {
+text-decoration-color: #969D9B;
+padding: 0 9px 9px 9px;
+
+}
+#id {
+
+}

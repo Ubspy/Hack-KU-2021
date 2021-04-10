@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <title>User Info Page Prototype</title>
+
+    <script src="https://unpkg.com/vue@next"></script>
+    
+    <div id="page-title">
+        Welcome {{first-name}} {{last-name}}
+    </div>
+    <div id="info">
+
+    </div>
+
+    <script>
+        const CounterApp = {
+            data() {
+                return {
+                counter: 0
+                }
+            },
+            mounted() {
+                setInterval(() => {
+                this.counter++
+                }, 1000)
+            }
+        }
+
+        Vue.createApp(CounterApp).mount('#counter')
+
+    </script>
+</html>

@@ -1,0 +1,54 @@
+{
+	"$id": "https://andrewriachi.com/hackku21/patient.schema.json",
+	"title": "Patient",
+	"description": "A patient, containing all of his/her medical history.",
+	"type": "object",
+	"properties": {
+		"name": {
+			"description": "The name of the patient",
+			"type": "string",
+		},
+		"email": {
+			"description": "The patient's current email",
+			"type": "string",
+		},
+		"phoneNumber": {
+			"description": "The patient's phone number",
+			"type": "string",
+		},
+		"address": {
+			"description": "The patient's address",
+			"type": "string",
+		},
+		"ssn": {
+			"description": "The patient's social security number",
+			"type": "string",
+		},
+		"healthInsurance": {
+			"description": "Patient's health insurance details",
+			"$ref": "https://andrewriachi.com/hackku21/health-insurance.schema.json",
+		},
+		"measurements": {
+			"description": "Height, weight, blood pressure",
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"height": {
+						"description": "Patient's height in centimeters",
+						"type": "number",
+					},
+					"weight": {
+						"description": "Patient's weight in kilograms",
+						"type": "number",
+					},
+					"date": {
+						"description": "Date this information was measured",
+						"type": "string",
+						"format": "date",
+					},
+				},
+			},
+		},
+	}
+}

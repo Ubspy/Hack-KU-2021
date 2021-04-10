@@ -1,13 +1,9 @@
-from json import JSONEncoder
 from dataclasses import dataclass
 from typing import Optional, List
-
-class MedicalSerializable():
-    def getJSON(self):
-        return self.__dict__
+from encoder import Serializable
 
 @dataclass
-class Date(MedicalSerializable):
+class Date(Serializable):
     month: int
     day: int
     year: int
@@ -15,26 +11,26 @@ class Date(MedicalSerializable):
         return f"{self.year}-{self.month}-{self.day}"
 
 @dataclass
-class PatientVisit(MedicalSerializable):
+class PatientVisit(Serializable):
     date: Date
     place: str
     doctor: str
     notes: str
 
 @dataclass
-class Media(MedicalSerializable):
+class Media(Serializable):
     visit: PatientVisit
     media: None
 
 @dataclass
-class PatientMeasurements(MedicalSerializable):
+class PatientMeasurements(Serializable):
     date: Date
     weight: Optional[float]
     height: Optional[float]
     bloodPressure: Optional[str]
 
 @dataclass
-class HealthInsuranceInfo(MedicalSerializable):
+class HealthInsuranceInfo(Serializable):
     name: str
     provider: str
     id: int
@@ -43,7 +39,7 @@ class HealthInsuranceInfo(MedicalSerializable):
     address:str
 
 @dataclass
-class MedicalData(MedicalSerializable):
+class MedicalData(Serializable):
     name: str
     email: str
     phoneNumber: int

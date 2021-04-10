@@ -1,10 +1,11 @@
 from datetime import datetime
 from dataclasses import dataclass
-from medicalData import MedicalSerializable, PatientMeasurements
+from medicalData import PatientMeasurements
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import hashes
 import json
+from encoder import GeneralEncoder, Serializable
 
 @dataclass
 class MedicalChange():
@@ -13,7 +14,7 @@ class MedicalChange():
     timestamp: datetime
         
 @dataclass
-class SignedMedicalChange(MedicalSerializable):
+class SignedMedicalChange(Serializable):
     change: MedicalChange
     signature: bytes
     def getJSON(self):

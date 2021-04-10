@@ -1,18 +1,10 @@
 from time import time
 from hashlib import sha256 
 import medicalData
-from json import JSONEncoder
-
-# Encodes the block chain and the individual blocks 
-class BlockChainEncoder(JSONEncoder):
-    def default(self, o):
-        if hasattr(o, '__dict__'): # Check if there's a dict property, if so we return it, if not we use vars
-            return vars(o)
-        else:
-            return o.__dict__
+from encoder import Serializable
 
 # Block chain class, handles adding new blocks
-class BlockChain:
+class BlockChain(Serializable):
     def __init__(self):
         self.chain = [] # Block chain list
         self.pendingEdits = [] # Current edits to add to a new block
@@ -70,7 +62,7 @@ class BlockChain:
         return self.chain[len(self.chain) - 1]
 
 # Block class, takes a set of data, an index, a previous hash and a proof
-class Block:
+class Block(Serializable):
     def __init__(self, medicalData, index, previousHash, proof):
         self.time = time() # Keeps a time stamp for the block
         self.index = index
@@ -84,6 +76,5 @@ class Block:
 
     def getIndex(self):
         return self.index
-
-    def getJSON(self):
-        return BlockChainEncoder().encode(self) # TODO: Sign blocks
+        
+    # TODO: Sign blocks

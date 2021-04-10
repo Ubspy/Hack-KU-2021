@@ -21,7 +21,7 @@ class SignedMedicalChange(MedicalSerializable):
             "tag": self.change.tag,
             "data": self.change.data,
             "timestamp": self.change.timestamp,
-            "signature": bytes.hex(self.signature)
+            "signature": self.signature.hex()
         }
     
     

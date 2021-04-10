@@ -25,17 +25,34 @@ body{
 
 }
 
-.callout{
-
+.top-background{
+  padding: 0 5px 5px 5px;
+  background-color: #281F2F;
 }
+
+.top-bar-right
 
 .callout{
   background-color: #969D9B;
-}
-
-div * {
 
 }
-#id {
 
+h1{
+    padding: 0 5px 5px 5px;
+    font-family: "Times New Roman", Times, serif;
+}
+
+h2{
+    padding: 0 5px 5px 5px;
+    font-family: "Times New Roman", Times, serif;
+}
+
+h3{
+    padding: 0 5px 5px 5px;
+    font-family: "Times New Roman", Times, serif;
+}
+
+h4{
+    padding: 0 5px 5px 5px;
+    font-family: "Times New Roman", Times, serif;
 }

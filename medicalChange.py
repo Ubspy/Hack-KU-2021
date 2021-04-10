@@ -18,6 +18,7 @@ class MedicalChange():
 class SignedMedicalChange(Serializable):
     change: MedicalChange
     signature: bytes
+    publicKey: bytes
     def getJSON(self):
         return {
             "tag": self.change.tag,
@@ -44,12 +45,12 @@ def medicalChangeDecoder(dct):
         signature=bytes.fromhex(dct['signature'])
     )
     
-def verify(signedchange: SignedMedicalChange, pubkey: rsa.RSAPublicKey) -> bool:
+def verify(signedchange: SignedMedicalChange) -> bool:
     change = signedchange.change
     message = bytes(repr(change), 'utf-8')
     
     try:
-        pubkey.verify(
+        signedchange.publicKey.verify(
             signedchange.signature,
             message,
             padding.PSS(
@@ -63,9 +64,9 @@ def verify(signedchange: SignedMedicalChange, pubkey: rsa.RSAPublicKey) -> bool:
     return True
     
     
-def sign(change: MedicalChange, key: rsa.RSAPrivateKey) -> SignedMedicalChange:
+def sign(change: MedicalChange, privateKey: rsa.RSAPrivateKey, publicKey: rsa.RSAPublicKey) -> SignedMedicalChange:
     message = bytes(repr(change), 'utf-8')
-    signature = key.sign(
+    signature = privateKey.sign(
         message,
         padding.PSS(
             mgf=padding.MGF1(hashes.SHA256()),
@@ -73,7 +74,7 @@ def sign(change: MedicalChange, key: rsa.RSAPrivateKey) -> SignedMedicalChange:
         ),
         hashes.SHA256()
     )
-    return SignedMedicalChange(change, signature)
+    return SignedMedicalChange(change, signature, publicKey)
 
 def load(filename):
     with open(filename) as f:

@@ -21,7 +21,7 @@ class BlockChain(Serializable):
     def __init__(self):
         self.chain = [] # Block chain list
         self.pendingEdits = [] # Current edits to add to a new block
-        self.chain.append(Block({}, 0, 0, 0)) # Adds an empty block at the beginning
+        self.chain.append(Block([], 0, 0, 0)) # Adds an empty block at the beginning
         # TODO: Make this just add basic information for a new medical patient instead of an empty block
 
     # Gets the length of the block chain
@@ -103,38 +103,28 @@ class Block(Serializable):
 def getPatientInfoFromChain(chain):
     patientInfo = {} # Empty dictionary
 
-    print([block.medicalChange for block in chain.chain])
-
-    for edit in [block.medicalChange for block in chain.chain]:
-        print(edit, type(edit))
-        patientInfo.update(edit)
+    for changes in [block.medicalChange for block in chain.chain]:
+        if changes:
+            patientInfo.update(dict((change.change.tag, change.change.data) for change in changes))
 
     return patientInfo
 
 chain = BlockChain()
 
-chain.newEdit(sign(MedicalChange("name", "Joe Biden", None), privateKey))
-chain.newEdit(sign(MedicalChange("bloodType", "A-", None), privateKey))
-chain.newEdit(sign(MedicalChange("dob", "4/15/1987", None), privateKey))
+chain.newEdit(sign(MedicalChange("name", "Joe Biden", None), privateKey, publicKey))
+chain.newEdit(sign(MedicalChange("bloodType", "A-", None), privateKey, publicKey))
+chain.newEdit(sign(MedicalChange("dob", "4/15/1987", None), privateKey, publicKey))
 chain.newBlock()
 
-chain.newEdit(sign(MedicalChange("allergies", ['pollen', 'latex'], None), privateKey))
+chain.newEdit(sign(MedicalChange("allergies", ['pollen', 'latex'], None), privateKey, publicKey))
 chain.newBlock()
 
-chain.newEdit(sign(MedicalChange('bloodType', 'B+', None), privateKey))
+chain.newEdit(sign(MedicalChange('bloodType', 'B+', None), privateKey, publicKey))
 chain.newBlock()
 
-print(getPatientInfoFromChain(chain))
+chain.newEdit(sign(MedicalChange('allergies', ['pollen', 'latex', 'bees'], None), privateKey, publicKey))
+chain.newBlock()    
 
-# chain.newEdit({'name': 'Joe Biden'})
-# chain.newEdit({'bloodType': 'A-'})
-# chain.newEdit({'dob': '4/15/1987'})
-# chain.newBlock()
-
-# chain.newEdit({'allergies': ['pollen', 'latex']})
-# chain.newBlock()
-
-# chain.newEdit({'bloodType': 'B+'})
-# chain.newBlock()
-
-# print(getPatientInfoFromChain(chain))
+dictThing = getPatientInfoFromChain(chain)
+res = [(key, dictThing[key]) for key in dictThing]
+print(res)

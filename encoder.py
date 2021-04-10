@@ -5,7 +5,7 @@ class Serializable():
         return self.__dict__
 
 class GeneralEncoder(JSONEncoder):
-    if isinstance(o, MedicalSerializable):
+    if isinstance(o, Serializable):
         return o.getJSON()
     elif isinstance(o, datetime):
         return o.isoformat()

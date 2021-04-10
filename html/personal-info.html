@@ -38,13 +38,31 @@
 <div class="row medium-8 large-7 columns">
      
         <div class="callout">
-            <h3>Personal Inforamtion</h3>
+            <h3>Personal Information</h3>
             <div class="callout">
                 <h4>Name: <small>{{first-name}} {{last-name}}</small></h4>
             </div>
             <div class="callout">
-                <h4>Health Insurance</h4>
+                <h4>Email: <small>{{email}}</small></h4>
             </div>
+            <div class="callout">
+                <h4>Phone Number: <small>{{phone-num}}</small></h4>
+            </div>
+            <div class="callout">
+                <h4>Date of Birth: <small>{{address}}</small></h4>
+            </div>
+            <div class="callout" id="SSN"> <!--id is for vue script-->
+                <h4>SSN: <small>{{ssn}}</small></h4> <!--write vue script for ssn, have authentication to show ssn, ******* by default-->
+            </div>
+            <div class="callout">
+                <h4>Health Insurance</h4>
+                <h4>Provider: <small>{{insurance-provider}}</small></h4>
+                <h4>ID#: <small>{{ID-num}}</small></h4>
+                <h4>Group#: <small>{{group-num}}</small></h4>
+                <h4>Plan: <small>{{insurance-plan}}</small></h4>
+                <h4>Provider Address: <small>{{insurance-address}}</small></h4>
+            </div>
+
       </div>
      
 

@@ -10,7 +10,59 @@
      <link rel="stylesheet" href="Scheme.css" />
     </head>
 
+    <script src ="https://unpkg.com/vue@next"></script>
+    <!-- minified jquery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- Compressed JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/js/foundation.min.js" integrity="sha256-pRF3zifJRA9jXGv++b06qwtSqX1byFQOLjqa2PTEb2o=" crossorigin="anonymous"></script>
     <!--ADD HERE-->
+    <div class = "top-bar">
+      <div class = "top-bar-right">
+        <ul class = "menu">
+            <li><a href = "about.html">About</a></li>
+            <li><a href = "login.html">Login</a></li>
+            <li><a href = "help.html">help</a><li>
+        </ul>
+      </div>
+    </div>
+
+    <div class = "callout large primary">
+      <div class = "row column text-center">
+          <h2>Welcome {{first name}}!</h2>
+          <h3 class = "subheader"> View and write information about patients medical records.</h3>
+      </div>
+    </div>
+
+  <body>
+
+      <div class = "row medium-8 large-7 columns" >
+
+        <div class "callit">
+          <h3> Medical Records </h3>
+          <div class ="callit">
+              <h4> Body Measurements: <small>{{Body weight, height, blood pressure}}</small><h4>
+          </div>
+          <div class ="callit">
+              <h4>Blood type: <small> {{blood type}} </small></h4>
+          </div>
+          <div class ="callit">
+              <h4> Allergies: <small> {{Allergies}} </small></h4>
+          </div>
+          <div class = "callit>"
+              <h4>Prescription log: <small> {{Perscription log}} </small></h4>
+          </div>
+          <div class = "callit>"
+              <h4> Known Health complications: <small> {{health complications}} </small></h4>
+          </div>
+          <div class = "callit>"
+              <h4> Testing history: <small> {{MRI/date, CAT scans/date, etc}} </small></h4>
+          </div>
+          <div class = "callit>"
+              <h4> Recent visits: <small> {{hospital/doctor, reason, standard/related info(if taken/needed),testing history, etc}} </small></h4>
+          </div>
+
+ </body> 
+
 
     <script>
         $(document).foundation();

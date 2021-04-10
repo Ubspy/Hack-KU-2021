@@ -1,24 +1,8 @@
-@import url("Scheme.css");
-<!DOCTYPE html>
-<html>
-<head>
-<style>
-<link rel "stylesheet" type ="text/css" href ="style.css">
+
 body{
   width: 600px;
   margin: 0 auto;
   background-color: #FF9500;
   padding: 0 20px 20px 20px;
   border: 5px solid black
-  color-scheme: light dark;
 }
-
-<body>
-
-</body>
-</style>
-
-
-</head>
-
-</html>

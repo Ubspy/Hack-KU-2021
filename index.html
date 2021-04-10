@@ -33,29 +33,30 @@
         </div>
     </div>
 
-<div class="grid-container fluid">
-    <div class="grid-x align-center">
-        <ul class="accordion" data-accordion data-multi-expand="true">
-
-            <li class="accordion-item is-active" data-accordion-item>
+<body>
+<div class="grid-container">
+    <div class="grid-y align-center">
+        <div class="cell">
+            <h2>Personal Information</h2>
+            
+        </div>
                 <a href="#" class="accordion-title">Personal Information</a>
                 <div class="accordion-content" data-tab-content >
-                  <ul>
-                      <li>Patient Name: {{first-name}} {{last-name}}</li>
+                 
+                      <h3>Patient Name: </h3><p>{{first-name}} {{last-name}}</p>
                       <li>Date of Birth: {{dob}}</li>
                       <li>Contact Information:</li>
-                      <ul>
+                      <div>
                           <li>Email: {{email}}</li>
                           <li>Phone Number: {{phone-num}}</li>
                           <li>Address: {{address}}</li>
-                      </ul>
+                      </div>
                       <li>SSN: {{ssn}}</li>
                       <li>Health Insurance:</li>
-                      <ul>
+                      <div>
                           <li>Provider: {{insurance-provider}}</li>
                           <li>Group #: {{insurance-group}}</li>
-                      </ul>
-                    </ul>
+                        </div>
                   <a href="#">Edit Personal Information</a>
                 </div>
               </li>
@@ -79,6 +80,7 @@
         </ul>
     </div>
 </div>
+</body>
 
     <script>
         $(document).foundation();

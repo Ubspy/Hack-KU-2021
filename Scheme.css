@@ -2,7 +2,7 @@ head{
 
 
   margin: 0 auto;
-  background-color: #626BBC;
+  background-color: #727FA0;
   text-decoration-color: blue;
   padding: 0 20px 20px 20px;
 
@@ -12,7 +12,7 @@ title{
 
   margin: 0 auto;
   font-size: 55 px;
-  background-color: #626BBC;
+  background-color: #727FA0;
   padding: 0 20px 20px 20px;
 
 }
@@ -20,14 +20,17 @@ title{
 body{
 
   margin: 0 auto;
-  background-color: #626BBC;
+  background-color: #281F2F;
   padding: 0 20px 20px 20px;
 
 }
 
 .callout{
+
+}
+
+.callout{
   background-color: #969D9B;
-  text-decoration-color: black;
 }
 
 div * {

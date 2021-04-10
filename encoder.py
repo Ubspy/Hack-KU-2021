@@ -6,9 +6,10 @@ class Serializable():
         return self.__dict__
 
 class GeneralEncoder(json.JSONEncoder):
-    if isinstance(o, Serializable):
-        return o.getJSON()
-    elif isinstance(o, datetime):
-        return o.isoformat()
-    else:
-        return json.JSONEncoder.default(self, o)
+    def default(self, o):
+        if isinstance(o, Serializable):
+            return o.getJSON()
+        elif isinstance(o, datetime):
+            return o.isoformat()
+        else:
+            return json.JSONEncoder.default(self, o)

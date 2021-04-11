@@ -1,22 +1,22 @@
 from time import time
 from hashlib import sha256 
 import medicalChange
-from encoder import Serializable
+from encoder import Serializable, GeneralEncoder
 from medicalChange import *
 from pprint import pprint
 
 # Block chain class, handles adding new blocks
 class BlockChain(Serializable):
-    def __init__(self, name=None, dob=None, ssn=None, privateKey=None, inDict=None):
-        if inDict:
-            self.chain = inDict
+    def __init__(self, name=None, dob=None, ssn=None, privateKey=None, blockList=None):
+        if blockList:
+            self.chain = blockList
         elif name and dob and ssn and privateKey:
             self.chain = [] # Block chain list
             firstChange = []
             firstChange.append(sign(MedicalChange('name', name, datetime.now()), privateKey))
             firstChange.append(sign(MedicalChange('dob', dob, datetime.now()), privateKey))
             firstChange.append(sign(MedicalChange('ssn', ssn, datetime.now()), privateKey))
-            self.chain.append(Block(firstChange, 0, ssn, 0)) # Adds an empty block at the beginning
+            self.chain.append(Block(firstChange, 0, 0, 0)) # Adds an empty block at the beginning
         else:
             raise Exception("No initial patient data provided, need name, dob, ssn and private key for signature")
 
@@ -35,7 +35,7 @@ class BlockChain(Serializable):
 
     # Gets the SHA256 hash for a block, turns the block data into JSON, then encodes it to utf-8, and then gets the SHA hash as a string
     def hashBlock(self, block):
-        return sha256(str(block.getJSON()).encode('utf-8')).hexdigest()
+        return sha256(str(json.dumps(block, cls=GeneralEncoder)).encode('utf-8')).hexdigest()
 
     # Validates the whole chain by checking the previous hash stored in each block with the calculated hash from the block itself
     def validateChain(self, index=0):
@@ -43,18 +43,21 @@ class BlockChain(Serializable):
             return True # Base case of recursion, returns True if we reach the end
         elif index > 0:
             # Recursive case, check stored previous hash with the calculated has, as well as the validation for the next part of the chain
+            print(index)
+            print(self.chain[index].previousHash)
+            print(self.hashBlock(self.chain[index - 1]))
             return (self.chain[index].previousHash == self.hashBlock(self.chain[index - 1])) and self.validateChain(index + 1)
         else:
             return self.validateChain(index + 1) # Can't compare the first element to the previous one, so we just return the next index
         
     # Validates all the signatures on the changes for patient medical data
     def validateSignatures(self, index=0):
-        if index == len(self.chain):
+        if index == len(self.pendingEdits):
             return True
         elif index > 0:
-            return verify(self.chain[index].medicalChange) and self.validateSignatures(index+1)
+            return verify(self.pendingEdits[index]) and self.validateSignatures(index+1)
         else:
-            return self.validateChain(index + 1)
+            return self.validateSignatures(index + 1)
 
     # Checks is a proof is validated
     def isValidProof(self, lastProof, previousHash, proof):
@@ -71,6 +74,8 @@ class BlockChain(Serializable):
     # Create a new block, we have a previousHash variable for the first block
     def newBlock(self, previousHash=None):
         # Check if the block chain is validated and if the signatures are validated
+        print(len(self.chain))
+
         if self.validateChain() and self.validateSignatures():
             proof = self.proofOfWork(self.lastBlock) # Calculate the proof for this block
             block = Block(self.pendingEdits, len(self.chain), self.hashBlock(self.lastBlock), proof) # Create a new block object with the calculated proof
@@ -102,10 +107,10 @@ class BlockChain(Serializable):
 
 # Block class, takes a set of data, an index, a previous hash and a proof
 class Block(Serializable):
-    def __init__(self, medicalChanges, index, previousHash, proof):
-        self.time = time() # Keeps a time stamp for the block
-        self.index = index
+    def __init__(self, medicalChanges, index, previousHash, proof, time=time()):
+        self.time = time # Keeps a time stamp for the block
         self.medicalChanges = medicalChanges
+        self.index = index
         self.previousHash = previousHash
         self.proof = proof
 
@@ -118,14 +123,27 @@ class Block(Serializable):
         
 def decodeBlockchain(dct) -> BlockChain:
     if 'blockchain' in dct:
-        blockchain = BlockChain(inDict=dct['blockchain'])
+        blockList = []
+
+        for block in dct['blockchain']:
+            blockList.append(decodeBlock(block))
+
+        blockchain = BlockChain(blockList=blockList)
         return blockchain
     return dct
     
 def decodeBlock(dct) -> Block:
     return Block(
+        dct['medicalChanges'],
         dct['index'],
-        dct['medicalChange'],
         dct['previousHash'],
-        dct['proof']
+        dct['proof'],
+        time=dct['time']
+    )
+
+def decodeChange(dct) -> MedicalChange:
+    return MedicalChange(
+        dct['tag'],
+        dct['data'],
+        dct['timestamp'],
     )

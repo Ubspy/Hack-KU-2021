@@ -30,6 +30,7 @@ chain.newEdit(sign(MedicalChange('allergies', ("add", Allergy(
     allergen="bees",
     severity="high"
 ))), privateKey))
+
 chain.newBlock()
 
 chainstring = json.dumps(chain, cls=GeneralEncoder)
@@ -37,4 +38,9 @@ print(chainstring)
 
 loadedchain = json.loads(chainstring, object_hook=decodeBlockchain)
 
-print(json.dumps(loadedchain, cls=GeneralEncoder))
+fileName = chain.hashBlock(chain.chain[0]) + '.bloq'
+file = open(f'chains/{fileName}', 'w+')
+file.write(chainstring)
+file.close()
+
+#print(json.dumps(loadedchain, cls=GeneralEncoder))

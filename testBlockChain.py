@@ -1,4 +1,4 @@
-from blockchain import BlockChain
+from blockchain import BlockChain, decode_blockchain
 from medicalHistory import MedicalHistory
 from medicalChange import MedicalChange, sign, verify
 from encoder import GeneralEncoder
@@ -38,4 +38,10 @@ for signedchange in chain.items():
         print(f"ERROR: Change at {signedchange.change.timestamp} was not authorized by a healthcare provider! Not adding.")
 
 print(json.dumps(history, cls=GeneralEncoder))
-print(json.dumps(chain, cls=GeneralEncoder))
+
+chainstring = json.dumps(chain, cls=GeneralEncoder)
+print(chainstring)
+
+loadedchain = json.loads(chainstring, object_hook=decode_blockchain)
+
+print(json.dumps(loadedchain, cls=GeneralEncoder))

@@ -18,10 +18,16 @@ with open("key.pem", "rb") as privateKeyFile:
 
 # Block chain class, handles adding new blocks
 class BlockChain(Serializable):
-    def __init__(self):
+    def __init__(self, name, dob, ssn):
         self.chain = [] # Block chain list
         self.pendingEdits = [] # Current edits to add to a new block
-        self.chain.append(Block([], 0, 0, 0)) # Adds an empty block at the beginning
+
+        firstChange = []
+        firstChange.append(sign(MedicalChange('name', name, datetime.timestamp), privateKey, publicKey))
+        firstChange.append(sign(MedicalChange('dob', dob, datetime.timestamp), privateKey, publicKey))
+        firstChange.append(sign(MedicalChange('ssn', ssn, datetime.timestamp), privateKey, publicKey))
+
+        self.chain.append(Block(firstChange, 0, ssn, 0)) # Adds an empty block at the beginning
         # TODO: Make this just add basic information for a new medical patient instead of an empty block
 
     # Gets the length of the block chain
@@ -111,11 +117,9 @@ class Block(Serializable):
 
 
 
-chain = BlockChain()
+chain = BlockChain("Joe Biden", "4/15/1987", 66642069)
 
-chain.newEdit(sign(MedicalChange("name", "Joe Biden", None), privateKey, publicKey))
 chain.newEdit(sign(MedicalChange("bloodType", "A-", None), privateKey, publicKey))
-chain.newEdit(sign(MedicalChange("dob", "4/15/1987", None), privateKey, publicKey))
 chain.newBlock()
 
 chain.newEdit(sign(MedicalChange("allergies", ['pollen', 'latex'], None), privateKey, publicKey))
@@ -128,5 +132,4 @@ chain.newEdit(sign(MedicalChange('allergies', ['pollen', 'latex', 'bees'], None)
 chain.newBlock()    
 
 dictThing = chain.getPatientInfoFromChain()
-res = [(key, dictThing[key]) for key in dictThing]
-print(res)
+print(dictThing)

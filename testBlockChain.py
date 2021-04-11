@@ -11,7 +11,6 @@ with open("key.pem", "rb") as privateKeyFile:
         password=b"passphrase"
     )
 
-
 chain = BlockChain(name="Joe Biden", ssn=69420666, dob="4/15/1987", privateKey=privateKey)
 
 chain.newEdit(sign(MedicalChange("bloodType", "A-"), privateKey))

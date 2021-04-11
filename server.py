@@ -22,18 +22,26 @@ __name__ = "ChainedTogether"
 app = Flask(__name__)
 app.secret_key = b'G\x10\x01D\x1e\xbabV\x1bAD\x0e\xdd\xe8r$\xaf\xfef\x8f\n\xf6,\xbb'
 
+# Load block chain dumps into a list
+patientChains = []
+
+for chainFile in os.listdir('chains/'):
+    file = open(chainFile, 'r')
+    patientChains.append(decodeBlockchain(file.read()))
+    file.close()
+
 @app.route('/')
 def index():
     #return "Hello, Gay Ass!"
     return render_template('index.html')
 
-@app.route('/authPatient')
+@app.route('/authPatient', methods=['POST'])
 def parientView():
-    return render_template('index.html', data=getPatientJSON(None))
+    return render_template('index.html', data=getPatientChain(request.form["creationData"]).getJSON())
 
-@app.route('/authDoctor')
+@app.route('/authDoctor', methods=['POST'])
 def doctorView():
-    return render_template('index.html', data=getPatientJSON(None))
+    return render_template('index.html', data=getPatientChain(request.form["creationData"]).getJSON())
 
 @app.route('/requestPatientEdits', methods=['POST'])
 def writePatientInfo():
@@ -49,35 +57,37 @@ def writePatientInfo():
     # This then creates signed medical change objects
     signedChanges = [sign(MedicalChange(change[0], change[1], datetime.now()), privateKey) for change in changesFromPage]
 
-    # TODO: Get right block chain from the database
-    patientChain = None # Will be a blockchain object
+    # TODO: Fix this
+    patientChain = getPatientChain(request.form)
 
-    # Stage all of these changes for the block, then create the block
-    for change in signedChanges:
-        patientChain.newEdit(change)
+    if patientChain:
+        # Stage all of these changes for the block, then create the block
+        for change in signedChanges:
+            patientChain.newEdit(change)
 
-    patientChain.newBlock()
+        patientChain.newBlock()
 
+        fileName = patientChain.hashBlock(patientChain.chain[0]) + ".bloq"
+        outFile = open(f'chain/{fileName}', 'w')
+        outFile.write(patientChain.getJSON())
+
+    # TODO: error?
     return render_template('index.html')
 
-def getPatientJSON(loginInfo):
-    patientChain = None # Will be a blockchain object
+def getPatientChain(creationInfo):
+    queriedChain = None # Will be a blockchain object
 
-    for chainFile in os.listdir('chains/'):
-        file = open(chainFile, 'r')
-        decodedChain = decodeBlockchain(file.read())
-        file.close()
+    for chain in patientChains:
+        nameField = next(change for change in chain.chain[0]['medicalChanges'] if change['tag'] == 'name')
+        dobField = next(change for change in chain.chain[0]['medicalChanges'] if change['tag'] == 'dob')
+        ssnField = next(change for change in chain.chain[0]['medicalChanges'] if change['tag'] == 'ssn')
 
-        patientChain = None
+        if nameField['data'] == creationInfo['name'] and dobField['data'] == creationInfo['dob'] and ssnField['data'] == creationInfo['ssn']:
+            queriedChain = chain
 
-        nameField = next(change for change in decodedChain.chain[0]['medicalChanges'] if change['tag'] == 'name')
-        dobField = next(change for change in decodedChain.chain[0]['medicalChanges'] if change['tag'] == 'dob')
-        ssnField = next(change for change in decodedChain.chain[0]['medicalChanges'] if change['tag'] == 'ssn')
-
-        if nameField['data'] == loginInfo['name'] and dobField['data'] == loginInfo['dob'] and ssnField['data'] == loginInfo['ssn']:
-            patientChain = decodedChain
-
-    return patientChain.getJSON()
+    return queriedChain
 
 if __name__ == "__main__":
     app.run()
+
+json.loads("{'name': 'Joe Biden', 'dob': '4/15/1987', 'ssn': ''}")

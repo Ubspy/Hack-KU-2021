@@ -1,6 +1,7 @@
 from blockchain import BlockChain, decodeBlockchain
 from medicalHistory import MedicalHistory
 from medicalChange import MedicalChange, sign, verify
+from medicalData import Allergy
 from encoder import GeneralEncoder
 from cryptography.hazmat.primitives import serialization
 import json
@@ -16,13 +17,19 @@ chain = BlockChain(name="Joe Biden", ssn=69420666, dob="4/15/1987", privateKey=p
 chain.newEdit(sign(MedicalChange("bloodType", "A-"), privateKey))
 chain.newBlock()
 
-chain.newEdit(sign(MedicalChange("allergies", ['pollen', 'latex']), privateKey))
+chain.newEdit(sign(MedicalChange("allergies", ("add", Allergy(
+    allergen="pollen",
+    severity="low"
+))), privateKey))
 chain.newBlock()
 
 chain.newEdit(sign(MedicalChange('bloodType', 'B+'), privateKey))
 chain.newBlock()
 
-chain.newEdit(sign(MedicalChange('allergies', ['pollen', 'latex', 'bees']), privateKey))
+chain.newEdit(sign(MedicalChange('allergies', ("add", Allergy(
+    allergen="bees",
+    severity="high"
+))), privateKey))
 chain.newBlock()
 
 chainstring = json.dumps(chain, cls=GeneralEncoder)

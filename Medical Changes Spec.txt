@@ -1,0 +1,56 @@
+A Medical Change is a data structure consisting of the following:
+
+tag: Specifies what kind of medical change this is.
+data: the data to be sent to the medical history
+
+
+"name"
+string - changes your name
+
+"email"
+transaction object - appends or removes an email you can be reached at
+data str
+
+"phoneNumber"
+transaction object - appends or removes a phone number you can be reached at
+data int
+
+"address"
+transaction object - appends or removes an address you can be reached at
+data str
+
+"dob"
+date - changes your date of birth
+
+"ssn"
+int - changes your ssn
+
+"measurements"
+object - appends to your history of measurements (no removal provided)
+properties:
+    date (required) - the date the measurement was taken
+    height (float) - the height measured in cm
+    weight (float) - the weight in kg
+    systolic (float) - systolic blood pressure measurement
+    diastolic (float) - diastolic blood pressure measurement
+
+"bloodType"
+str - changes your blood type
+
+"allergies"
+transaction object - appends or removes an allergy
+data object
+properties:
+    allergen - string (ideally some ISO standard string that all doctors        would know to search, like ASN)
+    severity (string) - "low", "medium", or "high" describing the       severity
+    description - string - a description of the allergy
+
+"healthConditions"
+transaction object - appends or removes a health condition
+data str
+
+
+
+Transaction Object
+a tuple of (str, data)
+where the string is "add" or "remove" and the data is whatever data type the tag takes

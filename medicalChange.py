@@ -1,6 +1,6 @@
 from datetime import datetime
 from dataclasses import dataclass
-from medicalData import PatientMeasurements
+from medicalData import PatientMeasurements, MedicalData
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import hashes
@@ -11,7 +11,7 @@ from encoder import Serializable
 @dataclass
 class MedicalChange():
     tag: str
-    data: any
+    data: MedicalData
     timestamp: datetime
         
 @dataclass

@@ -56,3 +56,8 @@ h4{
     padding: 0 5px 5px 5px;
     font-family: "Times New Roman", Times, serif;
 }
+
+.log-in-form {
+  border: 1px solid #281F2F;
+  padding: 20px;
+}

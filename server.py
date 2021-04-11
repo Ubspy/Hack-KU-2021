@@ -61,13 +61,23 @@ def writePatientInfo():
     return render_template('index.html')
 
 def getPatientJSON(loginInfo):
-    # TODO: Get right block chain from the database
+    patientChain = None # Will be a blockchain object
+
     for chainFile in os.listdir('chains/'):
         file = open(chainFile, 'r')
-        decodeBlockchain(file.read())
+        decodedChain = decodeBlockchain(file.read())
         file.close()
-    patientChain = None # Will be a blockchain object
-    return patientChain.getPatientInfoFromChain()
+
+        patientChain = None
+
+        nameField = next(change for change in decodedChain.chain[0]['medicalChanges'] if change['tag'] == 'name')
+        dobField = next(change for change in decodedChain.chain[0]['medicalChanges'] if change['tag'] == 'dob')
+        ssnField = next(change for change in decodedChain.chain[0]['medicalChanges'] if change['tag'] == 'ssn')
+
+        if nameField['data'] == loginInfo['name'] and dobField['data'] == loginInfo['dob'] and ssnField['data'] == loginInfo['ssn']:
+            patientChain = decodedChain
+
+    return patientChain.getJSON()
 
 if __name__ == "__main__":
     app.run()

@@ -1,4 +1,4 @@
-from blockchain import BlockChain
+from blockchain import BlockChain, decodeBlockchain
 from medicalHistory import MedicalHistory
 from medicalChange import MedicalChange, sign, verify
 from encoder import GeneralEncoder
@@ -12,11 +12,9 @@ with open("key.pem", "rb") as privateKeyFile:
     )
 
 
-chain = BlockChain()
+chain = BlockChain(name="Joe Biden", ssn=69420666, dob="4/15/1987", privateKey=privateKey)
 
-chain.newEdit(sign(MedicalChange("name", "Joe Biden"), privateKey))
 chain.newEdit(sign(MedicalChange("bloodType", "A-"), privateKey))
-chain.newEdit(sign(MedicalChange("dob", "4/15/1987"), privateKey))
 chain.newBlock()
 
 chain.newEdit(sign(MedicalChange("allergies", ['pollen', 'latex']), privateKey))
@@ -28,16 +26,9 @@ chain.newBlock()
 chain.newEdit(sign(MedicalChange('allergies', ['pollen', 'latex', 'bees']), privateKey))
 chain.newBlock()
 
-print(chain.getJSON())
+chainstring = json.dumps(chain, cls=GeneralEncoder)
+print(chainstring)
 
-history = MedicalHistory("Joe Biden", "4/15/1987", 385762048)
+loadedchain = json.loads(chainstring, object_hook=decodeBlockchain)
 
-for signedchange in chain.items():
-    if verify(signedchange):
-        print(f"Verified change at {signedchange.change.timestamp}!")
-        history.addChange(signedchange.change)
-    else:
-        print(f"ERROR: Change at {signedchange.change.timestamp} was not authorized by a healthcare provider! Not adding.")
-
-print(json.dumps(history, cls=GeneralEncoder))
-print(json.dumps(chain, cls=GeneralEncoder))
+print(json.dumps(loadedchain, cls=GeneralEncoder))

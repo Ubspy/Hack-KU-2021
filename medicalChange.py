@@ -26,7 +26,36 @@ class SignedMedicalChange(Serializable):
             "timestamp": self.change.timestamp,
             "signature": self.signature.hex()
         }
+        
+@dataclass
+class EncryptedMedicalChange(Serializable):
+    encryptedChange: bytes
+    patientSignature: bytes
+    providerPublicKey: bytes
+    providerSignature: bytes
+    def getJSON(self):
+        return {
+            "encryptedChange": self.encryptedChange.hex(),
+            "patientSignature": self.patientSignature.hex(),
+            "providerPublicKey": self.providerPublicKey.hex(),
+            "providerSignature": self.providerSignature.hex()
+        }
     
+def encryptForPatient(signedChange: SignedMedicalChange, patientPubKey: rsa.RSAPublicKey) -> EncryptedMedicalChange:
+    message = bytes(repr(signedChange.change))
+    return EncryptedMedicalChange(
+        encryptedChange=patientPubKey.encrypt(
+            message,
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                algorithm=hashes.SHA256(),
+                label=None
+            )
+        ),
+        patientSignature=None,
+        providerPublicKey=signedChange.publicKey,
+        providerSignature=signedChange.signature
+    )
     
 def measurementDecoder(dct) -> PatientMeasurements:
     return PatientMeasurements(dct.get('weight'), dct.get('height'), dct.get('bloodPressure'))
@@ -76,6 +105,7 @@ def sign(change: MedicalChange, privateKey: rsa.RSAPrivateKey) -> SignedMedicalC
     )
     publicKey = privateKey.public_key()
     return SignedMedicalChange(change, signature, publicKey)
+    
 
 def load(filename):
     with open(filename) as f:

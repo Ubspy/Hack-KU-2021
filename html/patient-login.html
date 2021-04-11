@@ -4,7 +4,7 @@
         <meta charset ="utf-8"/>
         <meta http-equiv= "x-ua-compatible" content = "ie=edge">
         <meta name ="viewport" content ="width=device-width, initial-scale=1.0"/>
-        <title>MedTogether: Help</title>
+        <title>MedTogether: Patient Login</title>
         <!-- Compressed CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css" integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous">
       <link rel ="stylesheet" href ="Scheme.css" />
@@ -28,7 +28,7 @@
                 </div>
                 <div class="top-bar-right">
                     <ul class="menu" style="color: #727FA0;">
-                      <li class="is-active menu-text"><a href="index.html">Home</a></li>
+                      <li class="menu-text"><a href="index.html">Home</a></li>
                       <li class="menu-text"><a href="login.html">Login</a></li>
                     </ul>
             </div>
@@ -44,16 +44,15 @@
       <form class="log-in-form" style="background-color: #727FA0;">
         <h4 class="text-center">Log in with your personal information</h4>
         <label>Full Legal Name
-          <input type="text" placeholder="Firstname Lastname">
+          <input id="name" type="text" placeholder="Firstname Lastname">
         </label>
         <label>Date of Birth
-          <input type="date" placeholder="mm/dd/yyyy">
+          <input id="dob" type="date" placeholder="mm/dd/yyyy">
         </label>
         <label>SSN
-          <input type="password" placeholder="###-##-####">
+          <input id="ssn" type="text" placeholder="###-##-####">
         </label>
-        <input id="show-password" type="checkbox"><label for="show-password">Show SSN</label>
-        <p><input type="submit" class="button" value="Log in" style="background-color: #281F2F;"></input></p>
+        <p><input onclick="submit()" type="submit" class="button" style="background-color: #281F2F;"></input></p>
       </form>
     </div>
     <div class="cell auto"></div>
@@ -61,6 +60,19 @@
   </div>
   
   <script>
+    function submit(){
+      $.ajax({
+      type: 'POST',
+      url: '/viewPatient',
+      data: `{"creationInfo": {"name": $("#name"), "dob": $("#dob"), "ssn": $("#ssn")}}`,
+      dataType: 'json',
+      success: function(json) {
+           window.location.replace = "/personal-info";
+        }
+      });
+
+    };
+
     $(document).foundation();
 </script>
 </html>

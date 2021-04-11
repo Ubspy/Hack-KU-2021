@@ -61,3 +61,12 @@ h4{
   border: 1px solid #281F2F;
   padding: 20px;
 }
+
+footer {
+  text-align: right;
+  margin-top: 60px;
+  padding: 3px;
+  background-color: #727FA0;
+  color: white;
+
+}

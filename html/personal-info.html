@@ -19,21 +19,18 @@
     <div class="top-bar-container" data-sticky-container>
         <div class="sticky sticky-topbar" data-sticky data-options="ancor: page; marginTop: 0; stickyOn: small;">
             <div class="top-bar">
+                <div class="top-bar-left">
+                    <div class="grid-x">
+                        <div class="cell small-4" style="background-color: #727FA0;"><h1 style="color: #EFEEEC; text-align: center;">MedTogether</h1></div>
+                        <div class="cell auto"></div>
+                    </div>
+                </div>
                 <div class="top-bar-right"> 
                     <ul class="menu">
-                        
-                        <ul class="dropdown menu" data-dropdown-menu>
-                            <li><a href="index.html">Home</a></li>
-                            <li class="has-submenu">
-                                <a>User</a>
-                                <ul class="submenu menu vertical" data-submenu>
-                                    <li class="is-active"><a href="personal-info.html">Personal Information</a></li>
-                                    <li><a href="medical-info.html">Medical Information</a></li>
-                                </ul>
-                            </li>
-
-                        </ul>
-                        
+                        <li class="menu-text"><a href="index.html">Home</a></li>
+                        <li class="is-active menu-text"><a href="personal-info.html">Personal Information</a></li>
+                        <li class="menu-text"><a href="medical-info.html">Medical Information</a></li>
+                        <li class="menu-text"><a href="login.html">Login</a></li>
                     </ul>
                 </div>
             </div>
@@ -41,55 +38,60 @@
     </div>
 
 
-    <div class="callout large primary" style="background-color: #727FA0;">
-        <div class="row column text-center" style="color: #EFEEEC;">
-            <h1>Welcome {{first-name}}!</h1>
-            <h3>View and control access to your medical history.</h3>
-        </div>
-    </div>
+    
 
-<body>
 
-<div class="row medium-8 large-7 columns">
 
-        <div class="callout">
-            <h3>Personal Information</h3>
-            <div class="callout">
-                <h4>Name: <small>{{first-name}} {{last-name}}</small></h4>
-            </div>
-            <div class="callout">
-                <h4>Email: <small>{{email}}</small></h4>
-            </div>
-            <div class="callout">
-                <h4>Phone Number: <small>{{phone-num}}</small></h4>
-            </div>
-            <div class="callout">
-                <h4>Date of Birth: <small>{{address}}</small></h4>
-            </div>
-            <div class="callout" id="SSN"> <!--id is for vue script-->
-                <h4>SSN: <small>{{ssn}}</small></h4> <!--write vue script for ssn, have authentication to show ssn, ******* by default-->
-            </div>
-            <div class="callout">
-                <h4>Health Insurance</h4>
-                <h4>Provider: <small>{{insurance-provider}}</small></h4>
-                <h4>ID#: <small>{{ID-num}}</small></h4>
-                <h4>Group#: <small>{{group-num}}</small></h4>
-                <h4>Plan: <small>{{insurance-plan}}</small></h4>
-                <h4>Provider Address: <small>{{insurance-address}}</small></h4>
-            </div>
 
+        
+
+      <div class="grid-container fluid">
+          <div class="grid-x">
+              <div class="cell auto"></div>
+              <div class="cell small-10 center">
+                  <div class="grid-y">
+                      <div class="cell small-2">
+                        <div style="background-color: #727FA0;">
+                            <h1>Welcome {{first-name}}!</h1>
+                            <h3>View and control access to your medical history.</h3>
+                        </div>
+                      </div>
+                      <div class="cell auto" ></div>
+                        <div style="background-color: #969db9;">
+                            <h3>Personal Information</h3>
+                            <div >
+                                <h4>Name: <small>{{first-name}} {{last-name}}</small></h4>
+                            </div>
+                            <div >
+                                <h4>Email: <small>{{email}}</small></h4>
+                            </div>
+                            <div >
+                                <h4>Phone Number: <small>{{phone-num}}</small></h4>
+                            </div>
+                            <div >
+                                <h4>Date of Birth: <small>{{address}}</small></h4>
+                            </div>
+                            <div  id="SSN"> <!--id is for vue script-->
+                                <h4>SSN: <small>{{ssn}}</small></h4> <!--write vue script for ssn, have authentication to show ssn, ******* by default-->
+                            </div>
+                            <div >
+                                <h3>Health Insurance</h3>
+                                <h4>Provider: <small>{{insurance-provider}}</small></h4>
+                                <h4>ID#: <small>{{ID-num}}</small></h4>
+                                <h4>Group#: <small>{{group-num}}</small></h4>
+                                <h4>Plan: <small>{{insurance-plan}}</small></h4>
+                                <h4>Provider Address: <small>{{insurance-address}}</small></h4>
+                            </div>
+                
+                      </div>
+                
+                      </div>
+                  </div>
+              
+              <div class="cell auto"></div>
+          </div>
       </div>
 
-
-      <div class="callout">
-        <h3>Medical Information</h3>
-        <div class="callout">
-          <h4>Name: <small>{{first-name}} {{last-name}}</small></h4>
-        </div>
-
-      </div>
-
-</body>
 
     <script>
         $(document).foundation();

@@ -13,5 +13,7 @@ class GeneralEncoder(json.JSONEncoder):
             return o.isoformat()
         elif isinstance(o, date):
             return o.isoformat()
+        elif isinstance(o, set):
+            return list(o)
         else:
             return json.JSONEncoder.default(self, o)

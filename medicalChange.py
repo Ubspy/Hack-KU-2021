@@ -1,6 +1,6 @@
 from datetime import datetime
 from dataclasses import dataclass
-from medicalData import PatientMeasurements
+from medicalData import PatientMeasurements, MedicalData
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import hashes
@@ -11,8 +11,8 @@ from encoder import Serializable
 @dataclass
 class MedicalChange():
     tag: str
-    data: any
-    timestamp: datetime
+    data: MedicalData
+    timestamp: datetime = datetime.now()
         
 @dataclass
 class SignedMedicalChange(Serializable):
@@ -64,7 +64,7 @@ def verify(signedchange: SignedMedicalChange) -> bool:
     return True
     
     
-def sign(change: MedicalChange, privateKey: rsa.RSAPrivateKey, publicKey: rsa.RSAPublicKey) -> SignedMedicalChange:
+def sign(change: MedicalChange, privateKey: rsa.RSAPrivateKey) -> SignedMedicalChange:
     message = bytes(repr(change), 'utf-8')
     signature = privateKey.sign(
         message,
@@ -74,6 +74,7 @@ def sign(change: MedicalChange, privateKey: rsa.RSAPrivateKey, publicKey: rsa.RS
         ),
         hashes.SHA256()
     )
+    publicKey = privateKey.public_key()
     return SignedMedicalChange(change, signature, publicKey)
 
 def load(filename):

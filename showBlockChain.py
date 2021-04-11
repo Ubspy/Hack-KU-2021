@@ -1,9 +1,10 @@
 from blockchain import *
 from medicalChange import *
+from medicalData import Allergy
 from cryptography.hazmat.primitives import serialization
 from encoder import GeneralEncoder
 from medicalHistory import *
-import time
+import datetime
 
 with open("key.pem", "rb") as privateKeyFile:
     privateKey = serialization.load_pem_private_key(
@@ -18,12 +19,30 @@ patientChain.newEdit(sign(MedicalChange('email', 'jwgibbo@gmail.com'), privateKe
 patientChain.newEdit(sign(MedicalChange("phoneNumber", '7858640221'), privateKey))
 patientChain.newBlock()
 
-patientChain.newEdit(sign(MedicalChange("allergies", ['pollen', 'latex']), privateKey))
+patientChain.newEdit(sign(MedicalChange("allergies", ("add", Allergy(
+    allergen="pollen",
+    severity="medium"
+))), privateKey))
 #patientChain.newEdit(sign(MedicalChange('healthConditions', ['asthma']), privateKey))
 patientChain.newBlock()
 
-patientChain.newEdit(sign(MedicalChange('allergies', ['bees']), privateKey))
-patientChain.newEdit(sign(MedicalChange('measurements', ['180lbs', '185cm', '95.4 F', '100/70mmHg']), privateKey))
+#latex
+patientChain.newEdit(sign(MedicalChange("allergies", ("add", Allergy(
+    allergen="latex",
+    severity="low"
+))), privateKey))
+
+patientChain.newEdit(sign(MedicalChange('allergies', ("add",Allergy(
+    allergen="bees",
+    severity="low"
+))), privateKey))
+patientChain.newEdit(sign(MedicalChange('measurements', PatientMeasurements(
+    date=datetime.date.today(),
+    weight=81.64663,
+    height=185,
+    systolic=100,
+    diastolic=70
+)), privateKey))
 patientChain.newBlock()
 
 finalHash = sha256(str(json.dumps(patientChain.chain, cls=GeneralEncoder)).encode('utf-8')).hexdigest()
@@ -38,7 +57,7 @@ print("Here is what the patient's medical record will look like in pure json:")
 
 patientHistory = MedicalHistory(None, None, None)
 for change in patientChain.items():
-    print(change.change)
+    # print(change.change)
     patientHistory.addChange(change.change)
 
 print(json.dumps(patientHistory, cls=GeneralEncoder))

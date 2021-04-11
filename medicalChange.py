@@ -64,7 +64,7 @@ def verify(signedchange: SignedMedicalChange) -> bool:
     return True
     
     
-def sign(change: MedicalChange, privateKey: rsa.RSAPrivateKey, publicKey: rsa.RSAPublicKey) -> SignedMedicalChange:
+def sign(change: MedicalChange, privateKey: rsa.RSAPrivateKey) -> SignedMedicalChange:
     message = bytes(repr(change), 'utf-8')
     signature = privateKey.sign(
         message,
@@ -74,6 +74,7 @@ def sign(change: MedicalChange, privateKey: rsa.RSAPrivateKey, publicKey: rsa.RS
         ),
         hashes.SHA256()
     )
+    publicKey = privateKey.public_key()
     return SignedMedicalChange(change, signature, publicKey)
 
 def load(filename):

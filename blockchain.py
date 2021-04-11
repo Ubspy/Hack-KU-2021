@@ -113,18 +113,18 @@ class Block(Serializable):
 
 chain = BlockChain()
 
-chain.newEdit(sign(MedicalChange("name", "Joe Biden", None), privateKey, publicKey))
-chain.newEdit(sign(MedicalChange("bloodType", "A-", None), privateKey, publicKey))
-chain.newEdit(sign(MedicalChange("dob", "4/15/1987", None), privateKey, publicKey))
+chain.newEdit(sign(MedicalChange("name", "Joe Biden", None), privateKey))
+chain.newEdit(sign(MedicalChange("bloodType", "A-", None), privateKey))
+chain.newEdit(sign(MedicalChange("dob", "4/15/1987", None), privateKey))
 chain.newBlock()
 
-chain.newEdit(sign(MedicalChange("allergies", ['pollen', 'latex'], None), privateKey, publicKey))
+chain.newEdit(sign(MedicalChange("allergies", ['pollen', 'latex'], None), privateKey))
 chain.newBlock()
 
-chain.newEdit(sign(MedicalChange('bloodType', 'B+', None), privateKey, publicKey))
+chain.newEdit(sign(MedicalChange('bloodType', 'B+', None), privateKey))
 chain.newBlock()
 
-chain.newEdit(sign(MedicalChange('allergies', ['pollen', 'latex', 'bees'], None), privateKey, publicKey))
+chain.newEdit(sign(MedicalChange('allergies', ['pollen', 'latex', 'bees'], None), privateKey))
 chain.newBlock()    
 
 dictThing = chain.getPatientInfoFromChain()

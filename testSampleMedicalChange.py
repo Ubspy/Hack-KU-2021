@@ -87,13 +87,9 @@ mysignedchanges = list(map(lambda change: sign(change, private_key), mychanges))
 encoded = json.dumps(mysignedchanges, cls=GeneralEncoder)
 print(encoded)
 
-with open("public.pem", "rb") as public_key_file:
-    public_key = serialization.load_pem_public_key(
-        public_key_file.read()
-    )
 
 for signedchange in mysignedchanges:
-    print(f"Change at {signedchange.change.timestamp} is verified!") if verify(signedchange, public_key) else print(f"Oops {signedchange.change.timestamp}")
+    print(f"Change at {signedchange.change.timestamp} is verified!") if verify(signedchange) else print(f"Oops {signedchange.change.timestamp}")
 
 for change in mychanges:
     myhistory.addChange(change)

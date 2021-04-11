@@ -51,14 +51,14 @@ class BlockChain(Serializable):
         if index == len(self.chain):
             return True
         elif index > 0:
-            return verify(self.chain[index].medicalChange, publicKey) and self.validateSignatures(index+1)
+            return verify(self.chain[index].medicalChange) and self.validateSignatures(index+1)
         else:
             return self.validateChain(index + 1)
 
     # Checks is a proof is validated
     def isValidProof(self, lastProof, previousHash, proof):
         currentHash = sha256(str(f'{lastProof}{previousHash}{proof}').encode('utf-8'))
-        return currentHash.hexdigest()[:2] == '00' # TODO: Make this larger, I'm keeping smaller for implementation purposes
+        return currentHash.hexdigest()[:5] == '00000' # TODO: Make this larger, I'm keeping smaller for implementation purposes
 
     # Function to calculate proof of work
     def proofOfWork(self, lastBlock):
@@ -78,6 +78,15 @@ class BlockChain(Serializable):
         else:
             # TODO: Make this more explicit
             raise Exception("Failed to valitate blockchain! >:(")
+    
+    def getPatientInfoFromChain(self):
+        patientInfo = {} # Empty dictionary
+
+        for changes in [block.medicalChange for block in self.chain]:
+            if changes:
+                patientInfo.update(dict((change.change.tag, change.change.data) for change in changes))
+
+        return patientInfo
 
     # Defines a property so we can get the last block in the chain
     @property
@@ -100,14 +109,7 @@ class Block(Serializable):
     def getIndex(self):
         return self.index
 
-def getPatientInfoFromChain(chain):
-    patientInfo = {} # Empty dictionary
 
-    for changes in [block.medicalChange for block in chain.chain]:
-        if changes:
-            patientInfo.update(dict((change.change.tag, change.change.data) for change in changes))
-
-    return patientInfo
 
 chain = BlockChain()
 
@@ -125,6 +127,6 @@ chain.newBlock()
 chain.newEdit(sign(MedicalChange('allergies', ['pollen', 'latex', 'bees'], None), privateKey, publicKey))
 chain.newBlock()    
 
-dictThing = getPatientInfoFromChain(chain)
+dictThing = chain.getPatientInfoFromChain()
 res = [(key, dictThing[key]) for key in dictThing]
 print(res)

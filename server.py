@@ -28,11 +28,11 @@ def index():
 
 @app.route('/authPatient')
 def parientView():
-    return None
+    return render_template('index.html', data=getPatientJSON(None))
 
 @app.route('/authDoctor')
 def doctorView():
-    return None
+    return render_template('index.html', data=getPatientJSON(None))
 
 @app.route('/requestPatientEdits', methods=['POST'])
 def writePatientInfo():
@@ -58,6 +58,11 @@ def writePatientInfo():
     patientChain.newBlock()
 
     return render_template('index.html')
+
+def getPatientJSON(loginInfo):
+    # TODO: Get right block chain from the database
+    patientChain = None # Will be a blockchain object
+    return patientChain.getPatientInfoFromChain()
 
 if __name__ == "__main__":
     app.run()

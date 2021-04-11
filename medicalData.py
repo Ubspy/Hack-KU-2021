@@ -18,7 +18,7 @@ class Media(Serializable):
 
 @dataclass
 class PatientMeasurements(Serializable):
-    date: Date
+    date: datetime.date
     weight: Optional[float]
     height: Optional[float]
     bloodPressure: Optional[str]
@@ -38,7 +38,7 @@ class MedicalData(Serializable):
     email: str
     phoneNumber: int
     address: str
-    dob: Date
+    dob: datetime.date
     ssn: int
     measurements: List[PatientMeasurements]
     bloodType: str

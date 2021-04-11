@@ -3,18 +3,6 @@ from hashlib import sha256
 import medicalChange
 from encoder import Serializable
 from medicalChange import *
-from cryptography.hazmat.primitives import serialization
-
-with open("public.pem", "rb") as publicKeyFile:
-    publicKey = serialization.load_pem_public_key(
-        publicKeyFile.read()
-    )
-
-with open("key.pem", "rb") as privateKeyFile:
-    privateKey = serialization.load_pem_private_key(
-        privateKeyFile.read(),
-        password=b"passphrase"
-    )
 
 # Block chain class, handles adding new blocks
 class BlockChain(Serializable):
@@ -23,7 +11,10 @@ class BlockChain(Serializable):
         self.pendingEdits = [] # Current edits to add to a new block
         self.chain.append(Block([], 0, 0, 0)) # Adds an empty block at the beginning
         # TODO: Make this just add basic information for a new medical patient instead of an empty block
-
+        
+    def getJSON(self):
+        return {"blockchain": self.chain}
+        
     # Gets the length of the block chain
     def chainLen(self):
         return len(self.chain)
@@ -58,7 +49,7 @@ class BlockChain(Serializable):
     # Checks is a proof is validated
     def isValidProof(self, lastProof, previousHash, proof):
         currentHash = sha256(str(f'{lastProof}{previousHash}{proof}').encode('utf-8'))
-        return currentHash.hexdigest()[:5] == '00000' # TODO: Make this larger, I'm keeping smaller for implementation purposes
+        return currentHash.hexdigest()[:2] == '00' # TODO: Make this larger, I'm keeping smaller for implementation purposes
 
     # Function to calculate proof of work
     def proofOfWork(self, lastBlock):
@@ -79,14 +70,20 @@ class BlockChain(Serializable):
             # TODO: Make this more explicit
             raise Exception("Failed to valitate blockchain! >:(")
     
-    def getPatientInfoFromChain(self):
-        patientInfo = {} # Empty dictionary
-
-        for changes in [block.medicalChange for block in self.chain]:
-            if changes:
-                patientInfo.update(dict((change.change.tag, change.change.data) for change in changes))
-
-        return patientInfo
+    def items(self): # returns an iterator over the data contained in this blockchain
+        class ItemIterator:
+            def __init__(self, above):
+                self.blockIterator = iter(above.chain)
+                self.itemIterator = iter(next(self.blockIterator).medicalChanges)
+            def __iter__(self):
+                return self
+            def __next__(self):
+                try:
+                    return next(self.itemIterator)
+                except StopIteration:
+                    self.itemIterator = iter(next(self.blockIterator).medicalChanges)
+                    return next(self.itemIterator)
+        return ItemIterator(self)
 
     # Defines a property so we can get the last block in the chain
     @property
@@ -95,10 +92,10 @@ class BlockChain(Serializable):
 
 # Block class, takes a set of data, an index, a previous hash and a proof
 class Block(Serializable):
-    def __init__(self, medicalChange, index, previousHash, proof):
+    def __init__(self, medicalChanges, index, previousHash, proof):
         self.time = time() # Keeps a time stamp for the block
         self.index = index
-        self.medicalChange = medicalChange
+        self.medicalChanges = medicalChanges
         self.previousHash = previousHash
         self.proof = proof
 
@@ -108,25 +105,17 @@ class Block(Serializable):
 
     def getIndex(self):
         return self.index
-
-
-
-chain = BlockChain()
-
-chain.newEdit(sign(MedicalChange("name", "Joe Biden", None), privateKey))
-chain.newEdit(sign(MedicalChange("bloodType", "A-", None), privateKey))
-chain.newEdit(sign(MedicalChange("dob", "4/15/1987", None), privateKey))
-chain.newBlock()
-
-chain.newEdit(sign(MedicalChange("allergies", ['pollen', 'latex'], None), privateKey))
-chain.newBlock()
-
-chain.newEdit(sign(MedicalChange('bloodType', 'B+', None), privateKey))
-chain.newBlock()
-
-chain.newEdit(sign(MedicalChange('allergies', ['pollen', 'latex', 'bees'], None), privateKey))
-chain.newBlock()    
-
-dictThing = chain.getPatientInfoFromChain()
-res = [(key, dictThing[key]) for key in dictThing]
-print(res)
+        
+def decode_blockchain(dct) -> BlockChain:
+    blockchain = BlockChain()
+    blockchain.chain = dct['blockchain']
+    return blockchain
+    
+def decode_block(dct) -> Block:
+    return Block(
+        dct['time'],
+        dct['index'],
+        dct['medicalChange'],
+        dct['previousHash'],
+        dct['proof']
+    )

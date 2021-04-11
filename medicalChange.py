@@ -12,7 +12,7 @@ from encoder import Serializable
 class MedicalChange():
     tag: str
     data: MedicalData
-    timestamp: datetime
+    timestamp: datetime = datetime.now()
         
 @dataclass
 class SignedMedicalChange(Serializable):

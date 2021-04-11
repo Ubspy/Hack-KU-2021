@@ -6,6 +6,9 @@ data: the data to be sent to the medical history
 Transaction Object
 is a tuple of (str, data) where the string is "add" or "remove" and the data is whatever data type the tag takes
 
+EXAMPLES
+Best examples are in testSampleMedicalChange.py
+
 
 DEFINITIONS
 

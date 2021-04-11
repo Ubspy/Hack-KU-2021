@@ -6,10 +6,16 @@ from medicalChange import *
 
 # Block chain class, handles adding new blocks
 class BlockChain(Serializable):
-    def __init__(self):
+    def __init__(self, name, dob, ssn):
         self.chain = [] # Block chain list
         self.pendingEdits = [] # Current edits to add to a new block
-        self.chain.append(Block([], 0, 0, 0)) # Adds an empty block at the beginning
+
+        firstChange = []
+        firstChange.append(sign(MedicalChange('name', name, datetime.timestamp), privateKey, publicKey))
+        firstChange.append(sign(MedicalChange('dob', dob, datetime.timestamp), privateKey, publicKey))
+        firstChange.append(sign(MedicalChange('ssn', ssn, datetime.timestamp), privateKey, publicKey))
+
+        self.chain.append(Block(firstChange, 0, ssn, 0)) # Adds an empty block at the beginning
         # TODO: Make this just add basic information for a new medical patient instead of an empty block
         
     def getJSON(self):
@@ -106,14 +112,21 @@ class Block(Serializable):
     def getIndex(self):
         return self.index
         
+<<<<<<< HEAD
 def decode_blockchain(dct) -> BlockChain:
     if 'blockchain' in dct:
         blockchain = BlockChain()
         blockchain.chain = dct['blockchain']
         return blockchain
     return dct
+=======
+def decodeBlockchain(dct) -> BlockChain:
+    blockchain = BlockChain()
+    blockchain.chain = dct['blockchain']
+    return blockchain
+>>>>>>> 27f25a45a42e759232c7a1e9cf31d57070654f1d
     
-def decode_block(dct) -> Block:
+def decodeBlock(dct) -> Block:
     return Block(
         dct['time'],
         dct['index'],

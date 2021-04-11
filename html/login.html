@@ -22,7 +22,7 @@
             <div class="top-bar">
                 <div class="top-bar-right">
                     <ul class="menu">
-                        
+
                         <ul class="dropdown menu" data-dropdown-menu>
                             <li><a href="index.html">Home</a></li>
                             <li><a href="about.html">About</a></li>
@@ -36,7 +36,7 @@
                             </li>
                             <li><a href="help.html">help</a></li>
                         </ul>
-                        
+
                     </ul>
                 </div>
             </div>
@@ -56,26 +56,54 @@
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css" integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous">
              <link rel="stylesheet" href="Scheme.css" />
             </head>
-        
+
             <script src="https://unpkg.com/vue@next"></script>
             <!-- minified jquery-->
             <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
             <!-- Compressed JavaScript -->
             <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/js/foundation.min.js" integrity="sha256-pRF3zifJRA9jXGv++b06qwtSqX1byFQOLjqa2PTEb2o=" crossorigin="anonymous"></script>
-        
+
             <!--ADD HERE-->
+            <style>
+              .button{
+                margin:25px;
+              }
+            </style>
             <body>
-            <div class="grid-container" style="background-color: #969D9B; padding:10pc">
-                <form class="log-in-form">
-                    <h4 class="text-center"> Log in with your personal information</h4>
-                    <label>Full Legal Name
-                        <input type="text" value="" placeholder="First name Last name" id="legal-name">
-                    </label>
-        
-                </form>
+            <div class="grid-container fluid" style="background-color: #969D9B; padding:0  pc">
+              <div class="grid-x">
+                <div class="cell auto"></div>
+                <div class="cell large-4 medium-8">
+                  <form class="log-in-form">
+                    <h4 class = "text-center"> Select either the doctor or patient button.</h4>
+
+
+
+                    <div class="grid-x">
+                         <div class="cell medium-auto primary">
+                         <a class ="button large primary" href ="#">Doctor </a>
+                         </div>
+                         <div class="cell medium-auto primary">
+                           <a class ="button large primary" href ="#">Patient </a>
+                         </div>
+                    </div>
+
+
+                    <!--  <h4 class="text-center"> Log in with your personal information</h4> -->
+
+                      <label>
+                          <p style= "font-size: 25px;"> Full Legal Name </p>
+                          <input type="text"  placeholder="First name Last name" id="legal-name">
+                      </label>
+
+                  </form>
+                </div>
+                <div class="cell auto"></div>
+              </div>
+
             </div>
             </body>
-        
+
             <script>
                 $(document).foundation();
             </script>

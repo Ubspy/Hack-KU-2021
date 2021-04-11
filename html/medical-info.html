@@ -10,71 +10,79 @@
      <link rel="stylesheet" href="Scheme.css" />
     </head>
 
-    <script src ="https://unpkg.com/vue@next"></script>
     <!-- minified jquery-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!-- Compressed JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/js/foundation.min.js" integrity="sha256-pRF3zifJRA9jXGv++b06qwtSqX1byFQOLjqa2PTEb2o=" crossorigin="anonymous"></script>
     <!--ADD HERE-->
-    <div class="top-bar-container" data-sticky-container>
-        <div class="sticky sticky-topbar" data-sticky data-options="ancor: page; marginTop: 0; stickyOn: small;">
-            <div class="top-bar">
-                <div class="top-bar-right">
-                    <ul class="menu">
 
-                        <ul class="dropdown menu" data-dropdown-menu>
-                            <li><a href="index.html">Home</a></li>
-                            <li class="has-submenu">
-                                <a>User</a>
-                                <ul class="submenu menu vertical" data-submenu>
-                                    <li><a href="personal-info.html">Personal Information</a></li>
-                                    <li class="is-active"><a href="medical-info.html">Medical Information</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </ul>
+ <div class="top-bar-container" data-sticky-container>
+    <div class="sticky sticky-topbar" data-sticky data-options="ancor: page; marginTop: 0; stickyOn: small;">
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <div class="grid-x">
+                    <div class="cell small-4" style="background-color: #727FA0;"><h1 style="color: #EFEEEC; text-align: center;">MedTogether</h1></div>
+                    <div class="cell auto"></div>
                 </div>
+            </div>
+            <div class="top-bar-right"> 
+                <ul class="menu">
+                    <li class="menu-text"><a href="index.html">Home</a></li>
+                    <li class="menu-text"><a href="personal-info.html">Personal Information</a></li>
+                    <li class="is-active menu-text"><a href="medical-info.html">Medical Information</a></li>
+                    <li class="menu-text"><a href="login.html">Login</a></li>
+                </ul>
             </div>
         </div>
     </div>
+</div>
+    
 
-
-    <div class = "callout large primary">
-      <div class = "row column text-center">
-          <h2>Welcome {{first name}}</h2>
-          <h3 class = "subheader"> View and write information about a patients medical records.</h3>
+  <div class="grid-container fluid">
+      <div class="grid-x">
+          <div class="cell auto"></div>
+          <div class="cell small-10 center">
+              <div class="grid-y">
+                  <div class="cell small-2">
+                    <div style="background-color: #727FA0;">
+                        <h1>Welcome {{first-name}}!</h1>
+                        <h3>View and control access to your medical history.</h3>
+                    </div>
+                  </div>
+                  <div class="cell auto" ></div>
+                    <div style="background-color: #969db9;">
+                        <h3>Medical Information</h3>
+                        <div >
+                            <h4>Body Measurements: <small>{{measurements}}</small></h4>
+                        </div>
+                        <div >
+                            <h4>Blood Type: <small>{{blood}}</small></h4>
+                        </div>
+                        <div >
+                            <h4>Allergies: <small>{{allergies}}</small></h4>
+                        </div>
+                        <div >
+                            <h4>Prescriptions: <small>{{prescriptions}}</small></h4>
+                        </div>
+                        <div >
+                            <h4>Known Health Complications: <small>{{complications}}</small></h4>
+                        </div>
+                        <div >
+                            <h4>Testing History: <small>{{testing}}</small></h4>
+                        </div>
+                        <div >
+                            <h4>Recent VIsits: <small>{{visits}}</small></h4>
+                        </div>
+            
+                  </div>
+            
+                  </div>
+              </div>
+          
+          <div class="cell auto"></div>
       </div>
-    </div>
+  </div>
 
-  <body>
-
-      <div class = "row medium-8 large-7 columns" >
-
-        <div class "callout">
-          <p style="font-size: 50px; color:red"> Medical Records </p>
-          <div class ="callout">
-              <h4> Body Measurements: <small>{{Body weight, height, blood pressure}}</small><h4>
-          </div>
-          <div class ="callout">
-              <h4>Blood type: <small> {{blood type}} </small></h4>
-          </div>
-          <div class ="callout">
-              <h4> Allergies: <small> {{Allergies}} </small></h4>
-          </div>
-          <div class = "callout">
-              <h4>Prescription log: <small> {{Perscription log}} </small></h4>
-          </div>
-          <div class = "callout">
-              <h4> Known Health complications: <small> {{health complications}} </small></h4>
-          </div>
-          <div class = "callout">
-              <h4> Testing history: <small> {{MRI/date, CAT scans/date, etc}} </small></h4>
-          </div>
-          <div class = "callout">
-              <h4> Recent visits: <small> {{hospital/doctor, reason, standard/related info(if taken/needed),testing history, etc}} </small></h4>
-          </div>
-
- </body>
 
 
     <script>

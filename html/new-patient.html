@@ -10,7 +10,6 @@
      <link rel="stylesheet" href="Scheme.css" />
     </head>
 
-    <script src="https://unpkg.com/vue@next"></script>
     <!-- minified jquery-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!-- Compressed JavaScript -->
@@ -28,45 +27,36 @@
                 </div>
                 <div class="top-bar-right">
                     <ul class="menu" style="color: #727FA0;">
-                            <li class="is-active menu-text"><a href="index.html">Home</a></li>
+                            <li class="menu-text"><a href="index.html">Home</a></li>
                             <li class="menu-text"><a href="login.html">Login</a></li>
-
+                            <li class="menu-text"><a href="patient-lookup.html">Patient Lookup</a></li>
+                            <li class="is-active menu-text"><a href="new-patient.html">New Patient</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="grid-container fluid" style="padding-top:40px;">
-
-        <div class="grid-x">
-            <div class="cell auto"></div>
-            <div class="cell small-8">
-
-                <div class="grid-y auto" style="background-color: #969D9B;">
-                    <div class="grid-x" style="text-align: center;">
-                        <div class="cell small-4 center"><h1></h1></div>
-                        <div class="cell auto"></div>
-                        <div class="cell small-6 center" style="text-align: center;"><h3></h3></div>
-                    </div>
-                </div>
-                <div class="grid-y auto" style="background-color: #727FA0;">
-                    <div class="grid-x">
-                        <div class="cell small-6 center" style="text-align: center;"><h3></h3></div>
-                        <div class="cell auto"></div>
-                        <div class="cell small-4 center"><h1></h1></div>
-                    </div>
-                </div>
-                <div class="grid-y auto" style="background-color: #969D9B;">
-                    <div class="grid-x">
-                        <div class="cell small-4 center" style="text-align: center;"><h1></h1></div>
-                        <div class="cell auto"></div>
-                        <div class="cell small-6 center" style="text-align: center;"><h3>m</h3></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="cell auto"></div>
+    <div class="grid-container fluid">
+        <div class="grid-x" style="padding-top: 40px;">
+          <div class="cell auto"></div>
+          <div class="cell small-4 center">
+            <form class="log-in-form" style="background-color: #727FA0;">
+              <h4 class="text-center">Create a new patient with their information</h4>
+              <label>Full Legal Name
+                <input id="name" type="text" placeholder="Firstname Lastname">
+              </label>
+              <label>Date of Birth
+                <input id="dob" type="date" placeholder="mm/dd/yyyy">
+              </label>
+              <label>SSN
+                <input id="ssn" type="text" placeholder="###-##-####">
+              </label>
+              <p><input onclick="submit()" type="submit" class="button" style="background-color: #281F2F;"></input></p>
+            </form>
+          </div>
+          <div class="cell auto"></div>
+        </div>
         </div>
 
    <script>

@@ -10,7 +10,6 @@
      <link rel="stylesheet" href="Scheme.css" />
     </head>
 
-    <script src="https://unpkg.com/vue@next"></script>
     <!-- minified jquery-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!-- Compressed JavaScript -->
@@ -20,18 +19,40 @@
     <div class="top-bar-container" data-sticky-container>
         <div class="sticky sticky-topbar" data-sticky data-options="ancor: page; marginTop: 0; stickyOn: small;">
             <div class="top-bar">
+                <div class="top-bar-left">
+                    <div class="grid-x">
+                        <div class="cell small-4" style="background-color: #727FA0;"><h1 style="color: #EFEEEC; text-align: center;">MedTogether</h1></div>
+                        <div class="cell auto"></div>
+                    </div>
+                </div>
                 <div class="top-bar-right">
-                    <ul class="menu">
-                        <ul class="dropdown menu" data-dropdown-menu>
+                    <ul class="menu" style="color: #727FA0;">
                             <li class="menu-text"><a href="index.html">Home</a></li>
-                        </ul>
+                            <li class="menu-text"><a href="login.html">Login</a></li>
+                            <li class="is-active menu-text"><a href="patient-lookup.html">Patient Lookup</a></li>
+                            <li class="menu-text"><a href="new-patient.html">New Patient</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 
-    
+    <div class="grid-container fluid">
+        <div class="grid-x" style="padding-top: 40px;">
+          <div class="cell auto"></div>
+          <div class="cell small-4 center">
+            <form class="log-in-form" style="background-color: #727FA0;">
+              <h4 class="text-center">Find a patient using their full name.</h4>
+              <label>Full Legal Name
+                <input id="name" type="text" placeholder="Firstname Lastname">
+              </label>
+              <p><input onclick="submit()" type="submit" class="button" style="background-color: #281F2F;"></input></p>
+            </form>
+          </div>
+          <div class="cell auto"></div>
+        </div>
+        </div>
+
 
     <script>
         $(document).foundation();

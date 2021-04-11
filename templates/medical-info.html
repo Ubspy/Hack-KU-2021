@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>MedTogether: Medical Info</title>
+        <!-- Compressed CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css" integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous">
+     <link rel="stylesheet" href="/static/Scheme.css" />
+    </head>
+
+    <!-- minified jquery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- Compressed JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/js/foundation.min.js" integrity="sha256-pRF3zifJRA9jXGv++b06qwtSqX1byFQOLjqa2PTEb2o=" crossorigin="anonymous"></script>
+    <!--ADD HERE-->
+
+ <div class="top-bar-container" data-sticky-container>
+    <div class="sticky sticky-topbar" data-sticky data-options="ancor: page; marginTop: 0; stickyOn: small;">
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <div class="grid-x">
+                    <div class="cell small-4" style="background-color: #727FA0;"><h1 style="color: #EFEEEC; text-align: center;">MedTogether</h1></div>
+                    <div class="cell auto"></div>
+                </div>
+            </div>
+            <div class="top-bar-right"> 
+                <ul class="menu">
+                    <li class="menu-text"><a href="/">Home</a></li>
+                    <li class="menu-text"><a href="/personalInfo">Personal Information</a></li>
+                    <li class="is-active menu-text"><a href="/viewPatient">Medical Information</a></li>
+                    <li class="menu-text"><a href="/login">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+    
+
+  <div class="grid-container fluid">
+      <div class="grid-x">
+          <div class="cell auto"></div>
+          <div class="cell small-10 center">
+              <div class="grid-y">
+                  <div class="cell small-2">
+                    <div style="background-color: #727FA0;">
+                        <h1>Welcome {{data.name}}!</h1>
+                        <h3>View and control access to your medical history.</h3>
+                    </div>
+                  </div>
+                  <div class="cell auto" ></div>
+                    <div style="background-color: #969db9;">
+                        <h3>Medical Information</h3>
+                        <div >
+                            <h4>Body Measurements: <small>{{data.measurements}}</small></h4>
+                        </div>
+                        <div >
+                            <h4>Blood Type: <small>{{data.bloodType}}</small></h4>
+                        </div>
+                        <div >
+                            <h4>Allergies: <small>{{data.allergies}}</small></h4>
+                        </div>
+                        <div >
+                            <h4>Prescriptions: <small>{{data.prescriptions}}</small></h4>
+                        </div>
+                        <div >
+                            <h4>Known Health Complications: <small>{{data.complications}}</small></h4>
+                        </div>
+                        <div >
+                            <h4>Testing History: <small>{{data.testing}}</small></h4>
+                        </div>
+                        <div >
+                            <h4>Recent VIsits: <small>{{data.visits}}</small></h4>
+                        </div>
+            
+                  </div>
+            
+                  </div>
+              </div>
+          
+          <div class="cell auto"></div>
+      </div>
+  </div>
+
+
+
+    <script>
+        $(document).foundation();
+    </script>
+</html>

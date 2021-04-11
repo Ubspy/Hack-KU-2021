@@ -23,7 +23,8 @@ class PatientMeasurements(Serializable, MedicalData):
     date: datetime.date
     weight: Optional[float]
     height: Optional[float]
-    bloodPressure: Optional[str]
+    systolic: Optional[float]
+    diastolic: Optional[float]
     
 @dataclass
 class Allergy(Serializable, MedicalData):

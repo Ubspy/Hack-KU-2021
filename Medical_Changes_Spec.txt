@@ -3,6 +3,11 @@ A Medical Change is a data structure consisting of the following:
 tag: Specifies what kind of medical change this is.
 data: the data to be sent to the medical history
 
+Transaction Object
+is a tuple of (str, data) where the string is "add" or "remove" and the data is whatever data type the tag takes
+
+
+DEFINITIONS
 
 "name"
 string - changes your name
@@ -49,8 +54,3 @@ properties:
 transaction object - appends or removes a health condition
 data str
 
-
-
-Transaction Object
-a tuple of (str, data)
-where the string is "add" or "remove" and the data is whatever data type the tag takes

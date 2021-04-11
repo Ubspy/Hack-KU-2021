@@ -125,20 +125,3 @@ def decodeBlock(dct) -> Block:
         dct['previousHash'],
         dct['proof']
     )
-
-chain = BlockChain("Joe Biden", "4/15/1987", 66642069)
-
-chain.newEdit(sign(MedicalChange("bloodType", "A-", None), privateKey, publicKey))
-chain.newBlock()
-
-chain.newEdit(sign(MedicalChange("allergies", ['pollen', 'latex'], None), privateKey, publicKey))
-chain.newBlock()
-
-chain.newEdit(sign(MedicalChange('bloodType', 'B+', None), privateKey, publicKey))
-chain.newBlock()
-
-chain.newEdit(sign(MedicalChange('allergies', ['pollen', 'latex', 'bees'], None), privateKey, publicKey))
-chain.newBlock()    
-
-dictThing = chain.getPatientInfoFromChain()
-print(dictThing)

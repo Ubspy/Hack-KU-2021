@@ -43,9 +43,6 @@ class BlockChain(Serializable):
             return True # Base case of recursion, returns True if we reach the end
         elif index > 0:
             # Recursive case, check stored previous hash with the calculated has, as well as the validation for the next part of the chain
-            print(index)
-            print(self.chain[index].previousHash)
-            print(self.hashBlock(self.chain[index - 1]))
             return (self.chain[index].previousHash == self.hashBlock(self.chain[index - 1])) and self.validateChain(index + 1)
         else:
             return self.validateChain(index + 1) # Can't compare the first element to the previous one, so we just return the next index
@@ -74,8 +71,6 @@ class BlockChain(Serializable):
     # Create a new block, we have a previousHash variable for the first block
     def newBlock(self, previousHash=None):
         # Check if the block chain is validated and if the signatures are validated
-        print(len(self.chain))
-
         if self.validateChain() and self.validateSignatures():
             proof = self.proofOfWork(self.lastBlock) # Calculate the proof for this block
             block = Block(self.pendingEdits, len(self.chain), self.hashBlock(self.lastBlock), proof) # Create a new block object with the calculated proof

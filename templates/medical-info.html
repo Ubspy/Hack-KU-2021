@@ -7,7 +7,7 @@
         <title>MedTogether: Medical Info</title>
         <!-- Compressed CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css" integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous">
-     <link rel="stylesheet" href="Scheme.css" />
+     <link rel="stylesheet" href="/static/Scheme.css" />
     </head>
 
     <!-- minified jquery-->
@@ -27,10 +27,10 @@
             </div>
             <div class="top-bar-right"> 
                 <ul class="menu">
-                    <li class="menu-text"><a href="index.html">Home</a></li>
-                    <li class="menu-text"><a href="personal-info.html">Personal Information</a></li>
-                    <li class="is-active menu-text"><a href="medical-info.html">Medical Information</a></li>
-                    <li class="menu-text"><a href="login.html">Login</a></li>
+                    <li class="menu-text"><a href="/">Home</a></li>
+                    <li class="menu-text"><a href="/personalInfo">Personal Information</a></li>
+                    <li class="is-active menu-text"><a href="/viewPatient">Medical Information</a></li>
+                    <li class="menu-text"><a href="/login">Login</a></li>
                 </ul>
             </div>
         </div>
@@ -45,7 +45,7 @@
               <div class="grid-y">
                   <div class="cell small-2">
                     <div style="background-color: #727FA0;">
-                        <h1>Welcome {{first-name}}!</h1>
+                        <h1>Welcome {{data.name}}!</h1>
                         <h3>View and control access to your medical history.</h3>
                     </div>
                   </div>
@@ -53,25 +53,25 @@
                     <div style="background-color: #969db9;">
                         <h3>Medical Information</h3>
                         <div >
-                            <h4>Body Measurements: <small>{{measurements}}</small></h4>
+                            <h4>Body Measurements: <small>{{data.measurements}}</small></h4>
                         </div>
                         <div >
-                            <h4>Blood Type: <small>{{blood}}</small></h4>
+                            <h4>Blood Type: <small>{{data.bloodType}}</small></h4>
                         </div>
                         <div >
-                            <h4>Allergies: <small>{{allergies}}</small></h4>
+                            <h4>Allergies: <small>{{data.allergies}}</small></h4>
                         </div>
                         <div >
-                            <h4>Prescriptions: <small>{{prescriptions}}</small></h4>
+                            <h4>Prescriptions: <small>{{data.prescriptions}}</small></h4>
                         </div>
                         <div >
-                            <h4>Known Health Complications: <small>{{complications}}</small></h4>
+                            <h4>Known Health Complications: <small>{{data.complications}}</small></h4>
                         </div>
                         <div >
-                            <h4>Testing History: <small>{{testing}}</small></h4>
+                            <h4>Testing History: <small>{{data.testing}}</small></h4>
                         </div>
                         <div >
-                            <h4>Recent VIsits: <small>{{visits}}</small></h4>
+                            <h4>Recent VIsits: <small>{{data.visits}}</small></h4>
                         </div>
             
                   </div>

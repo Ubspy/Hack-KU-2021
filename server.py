@@ -37,14 +37,27 @@ def index():
     #return "Hello, Gay Ass!"
     return render_template('index.html')
 
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/authPatient', methods=['GET', 'POST'])
+def authPatient():
+    if request.method == 'GET':
+        return render_template('patient-login.html')
+    elif request.method == 'POST':
+        dataDict = json.loads(list(request.form.to_dict().keys())[0])
+        patientChain = getPatientChain(dataDict['creationInfo'])
+        return redirect(url_for('viewPatient'))
+
 @app.route('/viewPatient', methods=['GET', 'POST'])
-def patientView():
-    # if request.method == 'POST':
-    #     dataDict = json.loads(list(request.form.to_dict().keys())[0])
-    #     patientChain = getPatientChain(dataDict['creationInfo'])
-    #     print(getPatientJson(patientChain))
-    # else:
-    return render_template('patient.html')
+def viewPatient():
+    if request.method == 'POST':
+        dataDict = json.loads(list(request.form.to_dict().keys())[0])
+        print(dataDict['creationInfo'])
+        patientChain = getPatientChain(dataDict['creationInfo'])
+        print(patientChain)
+        return {"redirect": redirect(url_for('viewPatient')), "data": getPatientJson(patientChain)}
 
 @app.route('/editPatient', methods=['GET'])
 def doctorView():
@@ -111,10 +124,10 @@ def getPatientChain(creationInfo):
 
     for chain in patientChains:
         nameField = next(change for change in chain.chain[0].medicalChanges if change['tag'] == 'name')
-        dobField = next(change for change in chain.chain[0].medicalChanges if change['tag'] == 'dob')
+        #dobField = next(change for change in chain.chain[0].medicalChanges if change['tag'] == 'dob')
         ssnField = next(change for change in chain.chain[0].medicalChanges if change['tag'] == 'ssn')
 
-        if nameField['data'] == creationInfo['name'] and dobField['data'] == creationInfo['dob'] and int(ssnField['data']) == int(creationInfo['ssn']):
+        if nameField['data'] == creationInfo['name'] and str(ssnField['data']) == str(creationInfo['ssn']):
             queriedChain = chain
 
     return queriedChain
@@ -123,9 +136,10 @@ def getPatientJson(patientChain):
     patientHistory = MedicalHistory(None, None, None)
 
     for change in patientChain.items():
-        if change.change:
+        if type(change) != dict:
             patientHistory.addChange(change.change)
         else:
+            print(change)
             patientHistory.addChange(decodeChange(change))
 
     return json.dumps(patientHistory, cls=GeneralEncoder)

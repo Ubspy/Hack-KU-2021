@@ -4,6 +4,7 @@ from cryptography.hazmat.primitives import serialization
 import json
 from datetime import datetime
 from blockchain import *
+import os
 
 with open("public.pem", "rb") as publicKeyFile:
     publicKey = serialization.load_pem_public_key(
@@ -46,7 +47,7 @@ def writePatientInfo():
     changesFromPage = [(key, dataDict[key]) for key in dataDict]
 
     # This then creates signed medical change objects
-    signedChanges = [sign(MedicalChange(change[0], change[1], datetime.now()), privateKey, publicKey) for change in changesFromPage]
+    signedChanges = [sign(MedicalChange(change[0], change[1], datetime.now()), privateKey) for change in changesFromPage]
 
     # TODO: Get right block chain from the database
     patientChain = None # Will be a blockchain object
@@ -61,6 +62,10 @@ def writePatientInfo():
 
 def getPatientJSON(loginInfo):
     # TODO: Get right block chain from the database
+    for chainFile in os.listdir('chains/'):
+        file = open(chainFile, 'r')
+        decodeBlockchain(file.read())
+        file.close()
     patientChain = None # Will be a blockchain object
     return patientChain.getPatientInfoFromChain()
 

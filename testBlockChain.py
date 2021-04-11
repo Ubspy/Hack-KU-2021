@@ -28,6 +28,8 @@ chain.newBlock()
 chain.newEdit(sign(MedicalChange('allergies', ['pollen', 'latex', 'bees']), privateKey))
 chain.newBlock()
 
+print(chain.getJSON())
+
 history = MedicalHistory("Joe Biden", "4/15/1987", 385762048)
 
 for signedchange in chain.items():

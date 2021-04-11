@@ -6,17 +6,21 @@ from medicalChange import *
 
 # Block chain class, handles adding new blocks
 class BlockChain(Serializable):
-    def __init__(self, name, dob, ssn):
-        self.chain = [] # Block chain list
+    def __init__(self, name=None, dob=None, ssn=None, privateKey=None, inDict=None):
+        if inDict:
+            self.chain = inDict
+        elif name and dob and ssn and privateKey:
+            self.chain = [] # Block chain list
+            firstChange = []
+            firstChange.append(sign(MedicalChange('name', name, datetime.timestamp), privateKey))
+            firstChange.append(sign(MedicalChange('dob', dob, datetime.timestamp), privateKey))
+            firstChange.append(sign(MedicalChange('ssn', ssn, datetime.timestamp), privateKey))
+
+            self.chain.append(Block(firstChange, 0, ssn, 0)) # Adds an empty block at the beginning
+        else:
+            raise Exception("No initial patient data provided, need name, dob, ssn and private key for signature")
+
         self.pendingEdits = [] # Current edits to add to a new block
-
-        firstChange = []
-        firstChange.append(sign(MedicalChange('name', name, datetime.timestamp), privateKey, publicKey))
-        firstChange.append(sign(MedicalChange('dob', dob, datetime.timestamp), privateKey, publicKey))
-        firstChange.append(sign(MedicalChange('ssn', ssn, datetime.timestamp), privateKey, publicKey))
-
-        self.chain.append(Block(firstChange, 0, ssn, 0)) # Adds an empty block at the beginning
-        # TODO: Make this just add basic information for a new medical patient instead of an empty block
         
     def getJSON(self):
         return {"blockchain": self.chain}
@@ -107,19 +111,17 @@ class Block(Serializable):
 
     # Getters for medical data, index and JSON
     def getMedicalData(self):
-        return self.medicalChange
+        return self.medicalChanges
 
     def getIndex(self):
         return self.index
         
 def decodeBlockchain(dct) -> BlockChain:
-    blockchain = BlockChain()
-    blockchain.chain = dct['blockchain']
+    blockchain = BlockChain(inDict=dct['blockchain'])
     return blockchain
     
 def decodeBlock(dct) -> Block:
     return Block(
-        dct['time'],
         dct['index'],
         dct['medicalChange'],
         dct['previousHash'],

@@ -5,7 +5,7 @@
         <meta http-equiv= "x-ua-compatible" content = "ie=edge">
         <meta name ="viewport" content ="width=device-width, initial-scale=1.0"/>
         <title>MedTogether: Help</title>
-
+        <!-- Compressed CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css" integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous">
       <link rel ="stylesheet" href ="Scheme.css" />
     </head>
@@ -15,3 +15,38 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!-- Compressed JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/js/foundation.min.js" integrity="sha256-pRF3zifJRA9jXGv++b06qwtSqX1byFQOLjqa2PTEb2o=" crossorigin="anonymous"></script>
+
+    <div class="top-bar-container" data-sticky-container>
+      <div class="top-bar">
+          <div class="top-bar-right">
+            <div class="menu">
+
+              <ul class ="dropdown menu" data-dropdown-menu>
+                 <li><a href="index.html">Home</a></li>
+                 <a>User</a>
+                   <li><a href="medical-info.html">Medical Information</a></li>
+                   <li><a href="login.html">Login</a></li>
+                 </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    <body>
+    <div class ="grid-container" style="background-color: #969D9B; padding:10px"><!DOCTYPE html>
+      <html class ="no-js" lang ="en">
+        <head>
+            <meta charset ="utf-8" />
+            <meta http-equiv="x-ua-compatible" content ="ie=edge">
+            <meta name ="viewport" content ="width=device-width, initial-scale =1.0"/>
+            <title>Enter your credentials: </title>
+            <!-- Compressed CSS -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css" integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous">
+         <link rel="stylesheet" href="Scheme.css" />
+        </head>
+
+            <script src="https://unpkg.com/vue@next"></script>
+            <!-- minified jquery-->
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+            <!-- Compressed JavaScript -->
+            <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/js/foundation.min.js" integrity="sha256-pRF3zifJRA9jXGv++b06qwtSqX1byFQOLjqa2PTEb2o=" crossorigin="anonymous"></script>

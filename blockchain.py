@@ -17,7 +17,6 @@ class BlockChain(Serializable):
             firstChange.append(sign(MedicalChange('dob', dob, datetime.now()), privateKey))
             firstChange.append(sign(MedicalChange('ssn', ssn, datetime.now()), privateKey))
             self.chain.append(Block(firstChange, 0, ssn, 0)) # Adds an empty block at the beginning
-            print(self.chain[0].medicalChanges)
         else:
             raise Exception("No initial patient data provided, need name, dob, ssn and private key for signature")
 

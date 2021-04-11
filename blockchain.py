@@ -3,6 +3,7 @@ from hashlib import sha256
 import medicalChange
 from encoder import Serializable
 from medicalChange import *
+from pprint import pprint
 
 # Block chain class, handles adding new blocks
 class BlockChain(Serializable):
@@ -12,11 +13,11 @@ class BlockChain(Serializable):
         elif name and dob and ssn and privateKey:
             self.chain = [] # Block chain list
             firstChange = []
-            firstChange.append(sign(MedicalChange('name', name, datetime.timestamp), privateKey))
-            firstChange.append(sign(MedicalChange('dob', dob, datetime.timestamp), privateKey))
-            firstChange.append(sign(MedicalChange('ssn', ssn, datetime.timestamp), privateKey))
-
+            firstChange.append(sign(MedicalChange('name', name, datetime.now()), privateKey))
+            firstChange.append(sign(MedicalChange('dob', dob, datetime.now()), privateKey))
+            firstChange.append(sign(MedicalChange('ssn', ssn, datetime.now()), privateKey))
             self.chain.append(Block(firstChange, 0, ssn, 0)) # Adds an empty block at the beginning
+            print(self.chain[0].medicalChanges)
         else:
             raise Exception("No initial patient data provided, need name, dob, ssn and private key for signature")
 
@@ -117,8 +118,10 @@ class Block(Serializable):
         return self.index
         
 def decodeBlockchain(dct) -> BlockChain:
-    blockchain = BlockChain(inDict=dct['blockchain'])
-    return blockchain
+    if 'blockchain' in dct:
+        blockchain = BlockChain(inDict=dct['blockchain'])
+        return blockchain
+    return dct
     
 def decodeBlock(dct) -> Block:
     return Block(

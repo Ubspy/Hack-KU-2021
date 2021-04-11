@@ -112,19 +112,12 @@ class Block(Serializable):
     def getIndex(self):
         return self.index
         
-<<<<<<< HEAD
 def decode_blockchain(dct) -> BlockChain:
     if 'blockchain' in dct:
         blockchain = BlockChain()
         blockchain.chain = dct['blockchain']
         return blockchain
     return dct
-=======
-def decodeBlockchain(dct) -> BlockChain:
-    blockchain = BlockChain()
-    blockchain.chain = dct['blockchain']
-    return blockchain
->>>>>>> 27f25a45a42e759232c7a1e9cf31d57070654f1d
     
 def decodeBlock(dct) -> Block:
     return Block(
